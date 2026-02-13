@@ -22,6 +22,12 @@ if [ "$DIMENSIONS" != "1024 1024 " ]; then
   exit 1
 fi
 
+# Normalize to a no-alpha PNG because App Store rejects transparent marketing icons.
+OPAQUE_SOURCE="/tmp/anagramstack-icon-opaque.png"
+sips -s format jpeg "$SOURCE" --out /tmp/anagramstack-icon-opaque.jpg >/dev/null
+sips -s format png /tmp/anagramstack-icon-opaque.jpg --out "$OPAQUE_SOURCE" >/dev/null
+rm -f /tmp/anagramstack-icon-opaque.jpg
+
 # iPhone/iPad + App Store sizes
 # format: filename size scale
 SPECS=(
@@ -52,12 +58,12 @@ for spec in "${SPECS[@]}"; do
   scale="$3"
 
   if [ "$size" = "1024" ]; then
-    cp "$SOURCE" "$DEST_DIR/$filename"
+    cp "$OPAQUE_SOURCE" "$DEST_DIR/$filename"
     continue
   fi
 
   pixel_size=$(awk "BEGIN { printf \"%d\", $size * $scale }")
-  sips -z "$pixel_size" "$pixel_size" "$SOURCE" --out "$DEST_DIR/$filename" >/dev/null
+  sips -z "$pixel_size" "$pixel_size" "$OPAQUE_SOURCE" --out "$DEST_DIR/$filename" >/dev/null
   echo "Generated $filename (${pixel_size}x${pixel_size})"
 done
 
