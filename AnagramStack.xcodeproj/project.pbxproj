@@ -6,6 +6,32 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		B79C2AD62F3DBA7B001AE71D /* AnagramChain.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79C2AD22F3DBA7B001AE71D /* AnagramChain.swift */; };
+		B79C2AD72F3DBA7B001AE71D /* Dictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79C2AD42F3DBA7B001AE71D /* Dictionary.swift */; };
+		B79C2AD82F3DBA7B001AE71D /* AnagramLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79C2AD32F3DBA7B001AE71D /* AnagramLevel.swift */; };
+		B79C2AE82F3DBA90001AE71D /* GameState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79C2AD92F3DBA90001AE71D /* GameState.swift */; };
+		B79C2AE92F3DBA90001AE71D /* AnagramStackClientApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79C2AE62F3DBA90001AE71D /* AnagramStackClientApp.swift */; };
+		B79C2AEA2F3DBA90001AE71D /* LetterTile.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79C2ADA2F3DBA90001AE71D /* LetterTile.swift */; };
+		B79C2AEB2F3DBA90001AE71D /* GameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79C2ADE2F3DBA90001AE71D /* GameViewModel.swift */; };
+		B79C2AEC2F3DBA90001AE71D /* WinScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79C2AE42F3DBA90001AE71D /* WinScreen.swift */; };
+		B79C2AED2F3DBA90001AE71D /* ChainSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79C2AE02F3DBA90001AE71D /* ChainSelectionView.swift */; };
+		B79C2AEE2F3DBA90001AE71D /* LetterTileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79C2AE32F3DBA90001AE71D /* LetterTileView.swift */; };
+		B79C2AEF2F3DBA90001AE71D /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79C2AE22F3DBA90001AE71D /* GameView.swift */; };
+		B79C2AF02F3DBA90001AE71D /* SavedProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79C2ADB2F3DBA90001AE71D /* SavedProgress.swift */; };
+		B79C2AF12F3DBA90001AE71D /* FeedbackOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79C2AE12F3DBA90001AE71D /* FeedbackOverlay.swift */; };
+		B79C2AF72F3DBA9F001AE71D /* words_alpha.txt in Resources */ = {isa = PBXBuildFile; fileRef = B79C2AF52F3DBA9F001AE71D /* words_alpha.txt */; };
+		B79C2AF82F3DBA9F001AE71D /* sample-chain-001.json in Resources */ = {isa = PBXBuildFile; fileRef = B79C2AF22F3DBA9F001AE71D /* sample-chain-001.json */; };
+		B79C2AF92F3DBA9F001AE71D /* dictionary.txt in Resources */ = {isa = PBXBuildFile; fileRef = B79C2AF42F3DBA9F001AE71D /* dictionary.txt */; };
+		B79C2B342F3DF89A001AE71D /* Dictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79C2AD42F3DBA7B001AE71D /* Dictionary.swift */; };
+		B79C2B352F3DF8A2001AE71D /* AnagramLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79C2AD32F3DBA7B001AE71D /* AnagramLevel.swift */; };
+		B79C2B362F3DF8A9001AE71D /* AnagramChain.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79C2AD22F3DBA7B001AE71D /* AnagramChain.swift */; };
+		B79C2B372F3DF8BC001AE71D /* dictionary.txt in Resources */ = {isa = PBXBuildFile; fileRef = B79C2AF42F3DBA9F001AE71D /* dictionary.txt */; };
+		B79C2B3F2F3E4CCB001AE71D /* WordGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79C2B3E2F3E4CCB001AE71D /* WordGraph.swift */; };
+		B79C2B402F3E4CCB001AE71D /* WordGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79C2B3E2F3E4CCB001AE71D /* WordGraph.swift */; };
+		B79C2B452F3ED379001AE71D /* ChainDownloadService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79C2B442F3ED379001AE71D /* ChainDownloadService.swift */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		B79C2AB62F3DB80D001AE71D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -21,20 +47,50 @@
 			remoteGlobalIDString = B79C2AA72F3DB80C001AE71D;
 			remoteInfo = AnagramStack;
 		};
+		B79C2B0E2F3DF7A9001AE71D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B79C2AA02F3DB80C001AE71D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B79C2B002F3DF7A6001AE71D;
+			remoteInfo = AnagramStackAdmin;
+		};
+		B79C2B182F3DF7A9001AE71D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B79C2AA02F3DB80C001AE71D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B79C2B002F3DF7A6001AE71D;
+			remoteInfo = AnagramStackAdmin;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		B79C2AA82F3DB80C001AE71D /* AnagramStack.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AnagramStack.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B79C2AB52F3DB80D001AE71D /* AnagramStackTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AnagramStackTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B79C2ABF2F3DB80D001AE71D /* AnagramStackUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AnagramStackUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		B79C2AD22F3DBA7B001AE71D /* AnagramChain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnagramChain.swift; sourceTree = "<group>"; };
+		B79C2AD32F3DBA7B001AE71D /* AnagramLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnagramLevel.swift; sourceTree = "<group>"; };
+		B79C2AD42F3DBA7B001AE71D /* Dictionary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dictionary.swift; sourceTree = "<group>"; };
+		B79C2AD92F3DBA90001AE71D /* GameState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameState.swift; sourceTree = "<group>"; };
+		B79C2ADA2F3DBA90001AE71D /* LetterTile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterTile.swift; sourceTree = "<group>"; };
+		B79C2ADB2F3DBA90001AE71D /* SavedProgress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedProgress.swift; sourceTree = "<group>"; };
+		B79C2ADE2F3DBA90001AE71D /* GameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewModel.swift; sourceTree = "<group>"; };
+		B79C2AE02F3DBA90001AE71D /* ChainSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChainSelectionView.swift; sourceTree = "<group>"; };
+		B79C2AE12F3DBA90001AE71D /* FeedbackOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackOverlay.swift; sourceTree = "<group>"; };
+		B79C2AE22F3DBA90001AE71D /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
+		B79C2AE32F3DBA90001AE71D /* LetterTileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterTileView.swift; sourceTree = "<group>"; };
+		B79C2AE42F3DBA90001AE71D /* WinScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WinScreen.swift; sourceTree = "<group>"; };
+		B79C2AE62F3DBA90001AE71D /* AnagramStackClientApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnagramStackClientApp.swift; sourceTree = "<group>"; };
+		B79C2AF22F3DBA9F001AE71D /* sample-chain-001.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "sample-chain-001.json"; sourceTree = "<group>"; };
+		B79C2AF42F3DBA9F001AE71D /* dictionary.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = dictionary.txt; sourceTree = "<group>"; };
+		B79C2AF52F3DBA9F001AE71D /* words_alpha.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = words_alpha.txt; sourceTree = "<group>"; };
+		B79C2B012F3DF7A6001AE71D /* AnagramStackAdmin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AnagramStackAdmin.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B79C2B0D2F3DF7A9001AE71D /* AnagramStackAdminTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AnagramStackAdminTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		B79C2B172F3DF7A9001AE71D /* AnagramStackAdminUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AnagramStackAdminUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		B79C2B3E2F3E4CCB001AE71D /* WordGraph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordGraph.swift; sourceTree = "<group>"; };
+		B79C2B442F3ED379001AE71D /* ChainDownloadService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChainDownloadService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		B79C2AAA2F3DB80C001AE71D /* AnagramStack */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = AnagramStack;
-			sourceTree = "<group>";
-		};
 		B79C2AB82F3DB80D001AE71D /* AnagramStackTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = AnagramStackTests;
@@ -43,6 +99,21 @@
 		B79C2AC22F3DB80D001AE71D /* AnagramStackUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = AnagramStackUITests;
+			sourceTree = "<group>";
+		};
+		B79C2B022F3DF7A6001AE71D /* AnagramStackAdmin */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = AnagramStackAdmin;
+			sourceTree = "<group>";
+		};
+		B79C2B102F3DF7A9001AE71D /* AnagramStackAdminTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = AnagramStackAdminTests;
+			sourceTree = "<group>";
+		};
+		B79C2B1A2F3DF7A9001AE71D /* AnagramStackAdminUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = AnagramStackAdminUITests;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -69,16 +140,42 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		B79C2AFE2F3DF7A6001AE71D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B79C2B0A2F3DF7A9001AE71D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B79C2B142F3DF7A9001AE71D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		B79C2A9F2F3DB80C001AE71D = {
 			isa = PBXGroup;
 			children = (
-				B79C2AAA2F3DB80C001AE71D /* AnagramStack */,
 				B79C2AB82F3DB80D001AE71D /* AnagramStackTests */,
 				B79C2AC22F3DB80D001AE71D /* AnagramStackUITests */,
+				B79C2B022F3DF7A6001AE71D /* AnagramStackAdmin */,
+				B79C2B102F3DF7A9001AE71D /* AnagramStackAdminTests */,
+				B79C2B1A2F3DF7A9001AE71D /* AnagramStackAdminUITests */,
 				B79C2AA92F3DB80C001AE71D /* Products */,
+				B79C2AD52F3DBA7B001AE71D /* Core */,
+				B79C2AE72F3DBA90001AE71D /* AnagramStackClient */,
+				B79C2AF62F3DBA9F001AE71D /* Resources */,
 			);
 			sourceTree = "<group>";
 		};
@@ -88,8 +185,90 @@
 				B79C2AA82F3DB80C001AE71D /* AnagramStack.app */,
 				B79C2AB52F3DB80D001AE71D /* AnagramStackTests.xctest */,
 				B79C2ABF2F3DB80D001AE71D /* AnagramStackUITests.xctest */,
+				B79C2B012F3DF7A6001AE71D /* AnagramStackAdmin.app */,
+				B79C2B0D2F3DF7A9001AE71D /* AnagramStackAdminTests.xctest */,
+				B79C2B172F3DF7A9001AE71D /* AnagramStackAdminUITests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		B79C2AD52F3DBA7B001AE71D /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				B79C2B3E2F3E4CCB001AE71D /* WordGraph.swift */,
+				B79C2AD22F3DBA7B001AE71D /* AnagramChain.swift */,
+				B79C2AD32F3DBA7B001AE71D /* AnagramLevel.swift */,
+				B79C2AD42F3DBA7B001AE71D /* Dictionary.swift */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		B79C2ADC2F3DBA90001AE71D /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				B79C2AD92F3DBA90001AE71D /* GameState.swift */,
+				B79C2ADA2F3DBA90001AE71D /* LetterTile.swift */,
+				B79C2ADB2F3DBA90001AE71D /* SavedProgress.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		B79C2ADD2F3DBA90001AE71D /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				B79C2B442F3ED379001AE71D /* ChainDownloadService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		B79C2ADF2F3DBA90001AE71D /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				B79C2ADE2F3DBA90001AE71D /* GameViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		B79C2AE52F3DBA90001AE71D /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				B79C2AE02F3DBA90001AE71D /* ChainSelectionView.swift */,
+				B79C2AE12F3DBA90001AE71D /* FeedbackOverlay.swift */,
+				B79C2AE22F3DBA90001AE71D /* GameView.swift */,
+				B79C2AE32F3DBA90001AE71D /* LetterTileView.swift */,
+				B79C2AE42F3DBA90001AE71D /* WinScreen.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		B79C2AE72F3DBA90001AE71D /* AnagramStackClient */ = {
+			isa = PBXGroup;
+			children = (
+				B79C2ADC2F3DBA90001AE71D /* Models */,
+				B79C2ADD2F3DBA90001AE71D /* Services */,
+				B79C2ADF2F3DBA90001AE71D /* ViewModels */,
+				B79C2AE52F3DBA90001AE71D /* Views */,
+				B79C2AE62F3DBA90001AE71D /* AnagramStackClientApp.swift */,
+			);
+			path = AnagramStackClient;
+			sourceTree = "<group>";
+		};
+		B79C2AF32F3DBA9F001AE71D /* chains */ = {
+			isa = PBXGroup;
+			children = (
+				B79C2AF22F3DBA9F001AE71D /* sample-chain-001.json */,
+			);
+			path = chains;
+			sourceTree = "<group>";
+		};
+		B79C2AF62F3DBA9F001AE71D /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				B79C2AF32F3DBA9F001AE71D /* chains */,
+				B79C2AF42F3DBA9F001AE71D /* dictionary.txt */,
+				B79C2AF52F3DBA9F001AE71D /* words_alpha.txt */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -106,9 +285,6 @@
 			buildRules = (
 			);
 			dependencies = (
-			);
-			fileSystemSynchronizedGroups = (
-				B79C2AAA2F3DB80C001AE71D /* AnagramStack */,
 			);
 			name = AnagramStack;
 			packageProductDependencies = (
@@ -163,6 +339,74 @@
 			productReference = B79C2ABF2F3DB80D001AE71D /* AnagramStackUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		B79C2B002F3DF7A6001AE71D /* AnagramStackAdmin */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B79C2B1F2F3DF7A9001AE71D /* Build configuration list for PBXNativeTarget "AnagramStackAdmin" */;
+			buildPhases = (
+				B79C2AFD2F3DF7A6001AE71D /* Sources */,
+				B79C2AFE2F3DF7A6001AE71D /* Frameworks */,
+				B79C2AFF2F3DF7A6001AE71D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				B79C2B022F3DF7A6001AE71D /* AnagramStackAdmin */,
+			);
+			name = AnagramStackAdmin;
+			packageProductDependencies = (
+			);
+			productName = AnagramStackAdmin;
+			productReference = B79C2B012F3DF7A6001AE71D /* AnagramStackAdmin.app */;
+			productType = "com.apple.product-type.application";
+		};
+		B79C2B0C2F3DF7A9001AE71D /* AnagramStackAdminTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B79C2B222F3DF7A9001AE71D /* Build configuration list for PBXNativeTarget "AnagramStackAdminTests" */;
+			buildPhases = (
+				B79C2B092F3DF7A9001AE71D /* Sources */,
+				B79C2B0A2F3DF7A9001AE71D /* Frameworks */,
+				B79C2B0B2F3DF7A9001AE71D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				B79C2B0F2F3DF7A9001AE71D /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				B79C2B102F3DF7A9001AE71D /* AnagramStackAdminTests */,
+			);
+			name = AnagramStackAdminTests;
+			packageProductDependencies = (
+			);
+			productName = AnagramStackAdminTests;
+			productReference = B79C2B0D2F3DF7A9001AE71D /* AnagramStackAdminTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		B79C2B162F3DF7A9001AE71D /* AnagramStackAdminUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B79C2B252F3DF7A9001AE71D /* Build configuration list for PBXNativeTarget "AnagramStackAdminUITests" */;
+			buildPhases = (
+				B79C2B132F3DF7A9001AE71D /* Sources */,
+				B79C2B142F3DF7A9001AE71D /* Frameworks */,
+				B79C2B152F3DF7A9001AE71D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				B79C2B192F3DF7A9001AE71D /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				B79C2B1A2F3DF7A9001AE71D /* AnagramStackAdminUITests */,
+			);
+			name = AnagramStackAdminUITests;
+			packageProductDependencies = (
+			);
+			productName = AnagramStackAdminUITests;
+			productReference = B79C2B172F3DF7A9001AE71D /* AnagramStackAdminUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -184,6 +428,17 @@
 						CreatedOnToolsVersion = 26.2;
 						TestTargetID = B79C2AA72F3DB80C001AE71D;
 					};
+					B79C2B002F3DF7A6001AE71D = {
+						CreatedOnToolsVersion = 26.2;
+					};
+					B79C2B0C2F3DF7A9001AE71D = {
+						CreatedOnToolsVersion = 26.2;
+						TestTargetID = B79C2B002F3DF7A6001AE71D;
+					};
+					B79C2B162F3DF7A9001AE71D = {
+						CreatedOnToolsVersion = 26.2;
+						TestTargetID = B79C2B002F3DF7A6001AE71D;
+					};
 				};
 			};
 			buildConfigurationList = B79C2AA32F3DB80C001AE71D /* Build configuration list for PBXProject "AnagramStack" */;
@@ -203,6 +458,9 @@
 				B79C2AA72F3DB80C001AE71D /* AnagramStack */,
 				B79C2AB42F3DB80D001AE71D /* AnagramStackTests */,
 				B79C2ABE2F3DB80D001AE71D /* AnagramStackUITests */,
+				B79C2B002F3DF7A6001AE71D /* AnagramStackAdmin */,
+				B79C2B0C2F3DF7A9001AE71D /* AnagramStackAdminTests */,
+				B79C2B162F3DF7A9001AE71D /* AnagramStackAdminUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -212,6 +470,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B79C2AF72F3DBA9F001AE71D /* words_alpha.txt in Resources */,
+				B79C2AF82F3DBA9F001AE71D /* sample-chain-001.json in Resources */,
+				B79C2AF92F3DBA9F001AE71D /* dictionary.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -229,6 +490,28 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		B79C2AFF2F3DF7A6001AE71D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B79C2B372F3DF8BC001AE71D /* dictionary.txt in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B79C2B0B2F3DF7A9001AE71D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B79C2B152F3DF7A9001AE71D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -236,6 +519,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B79C2AD62F3DBA7B001AE71D /* AnagramChain.swift in Sources */,
+				B79C2AD72F3DBA7B001AE71D /* Dictionary.swift in Sources */,
+				B79C2AD82F3DBA7B001AE71D /* AnagramLevel.swift in Sources */,
+				B79C2AE82F3DBA90001AE71D /* GameState.swift in Sources */,
+				B79C2AE92F3DBA90001AE71D /* AnagramStackClientApp.swift in Sources */,
+				B79C2AEA2F3DBA90001AE71D /* LetterTile.swift in Sources */,
+				B79C2B402F3E4CCB001AE71D /* WordGraph.swift in Sources */,
+				B79C2B452F3ED379001AE71D /* ChainDownloadService.swift in Sources */,
+				B79C2AEB2F3DBA90001AE71D /* GameViewModel.swift in Sources */,
+				B79C2AEC2F3DBA90001AE71D /* WinScreen.swift in Sources */,
+				B79C2AED2F3DBA90001AE71D /* ChainSelectionView.swift in Sources */,
+				B79C2AEE2F3DBA90001AE71D /* LetterTileView.swift in Sources */,
+				B79C2AEF2F3DBA90001AE71D /* GameView.swift in Sources */,
+				B79C2AF02F3DBA90001AE71D /* SavedProgress.swift in Sources */,
+				B79C2AF12F3DBA90001AE71D /* FeedbackOverlay.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -247,6 +545,31 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		B79C2ABB2F3DB80D001AE71D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B79C2AFD2F3DF7A6001AE71D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B79C2B3F2F3E4CCB001AE71D /* WordGraph.swift in Sources */,
+				B79C2B342F3DF89A001AE71D /* Dictionary.swift in Sources */,
+				B79C2B352F3DF8A2001AE71D /* AnagramLevel.swift in Sources */,
+				B79C2B362F3DF8A9001AE71D /* AnagramChain.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B79C2B092F3DF7A9001AE71D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B79C2B132F3DF7A9001AE71D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -265,6 +588,16 @@
 			isa = PBXTargetDependency;
 			target = B79C2AA72F3DB80C001AE71D /* AnagramStack */;
 			targetProxy = B79C2AC02F3DB80D001AE71D /* PBXContainerItemProxy */;
+		};
+		B79C2B0F2F3DF7A9001AE71D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B79C2B002F3DF7A6001AE71D /* AnagramStackAdmin */;
+			targetProxy = B79C2B0E2F3DF7A9001AE71D /* PBXContainerItemProxy */;
+		};
+		B79C2B192F3DF7A9001AE71D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B79C2B002F3DF7A6001AE71D /* AnagramStackAdmin */;
+			targetProxy = B79C2B182F3DF7A9001AE71D /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -390,13 +723,19 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				AUTOMATION_APPLE_EVENTS = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = GAMJ6J6LT3;
-				ENABLE_APP_SANDBOX = YES;
-				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_APP_SANDBOX = NO;
+				ENABLE_HARDENED_RUNTIME = NO;
 				ENABLE_PREVIEWS = YES;
-				ENABLE_USER_SELECTED_FILES = readonly;
+				ENABLE_RESOURCE_ACCESS_AUDIO_INPUT = NO;
+				ENABLE_RESOURCE_ACCESS_CALENDARS = NO;
+				ENABLE_RESOURCE_ACCESS_CAMERA = NO;
+				ENABLE_RESOURCE_ACCESS_CONTACTS = NO;
+				ENABLE_RESOURCE_ACCESS_LOCATION = NO;
+				ENABLE_RESOURCE_ACCESS_PHOTO_LIBRARY = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
@@ -416,6 +755,12 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.rahulmatthan.AnagramStack;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
+				RUNTIME_EXCEPTION_ALLOW_DYLD_ENVIRONMENT_VARIABLES = NO;
+				RUNTIME_EXCEPTION_ALLOW_JIT = NO;
+				RUNTIME_EXCEPTION_ALLOW_UNSIGNED_EXECUTABLE_MEMORY = NO;
+				RUNTIME_EXCEPTION_DEBUGGING_TOOL = NO;
+				RUNTIME_EXCEPTION_DISABLE_EXECUTABLE_PAGE_PROTECTION = NO;
+				RUNTIME_EXCEPTION_DISABLE_LIBRARY_VALIDATION = NO;
 				SDKROOT = auto;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
@@ -434,13 +779,19 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				AUTOMATION_APPLE_EVENTS = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = GAMJ6J6LT3;
-				ENABLE_APP_SANDBOX = YES;
-				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_APP_SANDBOX = NO;
+				ENABLE_HARDENED_RUNTIME = NO;
 				ENABLE_PREVIEWS = YES;
-				ENABLE_USER_SELECTED_FILES = readonly;
+				ENABLE_RESOURCE_ACCESS_AUDIO_INPUT = NO;
+				ENABLE_RESOURCE_ACCESS_CALENDARS = NO;
+				ENABLE_RESOURCE_ACCESS_CAMERA = NO;
+				ENABLE_RESOURCE_ACCESS_CONTACTS = NO;
+				ENABLE_RESOURCE_ACCESS_LOCATION = NO;
+				ENABLE_RESOURCE_ACCESS_PHOTO_LIBRARY = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
@@ -460,6 +811,12 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.rahulmatthan.AnagramStack;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
+				RUNTIME_EXCEPTION_ALLOW_DYLD_ENVIRONMENT_VARIABLES = NO;
+				RUNTIME_EXCEPTION_ALLOW_JIT = NO;
+				RUNTIME_EXCEPTION_ALLOW_UNSIGNED_EXECUTABLE_MEMORY = NO;
+				RUNTIME_EXCEPTION_DEBUGGING_TOOL = NO;
+				RUNTIME_EXCEPTION_DISABLE_EXECUTABLE_PAGE_PROTECTION = NO;
+				RUNTIME_EXCEPTION_DISABLE_LIBRARY_VALIDATION = NO;
 				SDKROOT = auto;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
@@ -575,6 +932,160 @@
 			};
 			name = Release;
 		};
+		B79C2B202F3DF7A9001AE71D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = GAMJ6J6LT3;
+				ENABLE_APP_SANDBOX = NO;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 15.6;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.rahulmatthan.AnagramStackAdmin;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		B79C2B212F3DF7A9001AE71D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = GAMJ6J6LT3;
+				ENABLE_APP_SANDBOX = NO;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 15.6;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.rahulmatthan.AnagramStackAdmin;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		B79C2B232F3DF7A9001AE71D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = GAMJ6J6LT3;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.6;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.rahulmatthan.AnagramStackAdminTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AnagramStackAdmin.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/AnagramStackAdmin";
+			};
+			name = Debug;
+		};
+		B79C2B242F3DF7A9001AE71D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = GAMJ6J6LT3;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.6;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.rahulmatthan.AnagramStackAdminTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AnagramStackAdmin.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/AnagramStackAdmin";
+			};
+			name = Release;
+		};
+		B79C2B262F3DF7A9001AE71D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = GAMJ6J6LT3;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.rahulmatthan.AnagramStackAdminUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = AnagramStackAdmin;
+			};
+			name = Debug;
+		};
+		B79C2B272F3DF7A9001AE71D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = GAMJ6J6LT3;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.rahulmatthan.AnagramStackAdminUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = AnagramStackAdmin;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -610,6 +1121,33 @@
 			buildConfigurations = (
 				B79C2AD02F3DB80D001AE71D /* Debug */,
 				B79C2AD12F3DB80D001AE71D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B79C2B1F2F3DF7A9001AE71D /* Build configuration list for PBXNativeTarget "AnagramStackAdmin" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B79C2B202F3DF7A9001AE71D /* Debug */,
+				B79C2B212F3DF7A9001AE71D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B79C2B222F3DF7A9001AE71D /* Build configuration list for PBXNativeTarget "AnagramStackAdminTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B79C2B232F3DF7A9001AE71D /* Debug */,
+				B79C2B242F3DF7A9001AE71D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B79C2B252F3DF7A9001AE71D /* Build configuration list for PBXNativeTarget "AnagramStackAdminUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B79C2B262F3DF7A9001AE71D /* Debug */,
+				B79C2B272F3DF7A9001AE71D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

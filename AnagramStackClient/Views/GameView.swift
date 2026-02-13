@@ -1,0 +1,302 @@
+//
+//  GameView.swift
+//  AnagramStackClient
+//
+//  Main game screen with tile interaction and animations
+//
+
+import SwiftUI
+import Combine
+import UniformTypeIdentifiers
+
+struct GameView: View {
+    @StateObject private var viewModel: GameViewModel
+    @State private var invalidShake = false
+    @State private var visibleTileCount = 0
+    @Environment(\.dismiss) private var dismiss
+
+    init(chain: AnagramChain, dictionary: WordDictionary = .shared) {
+        // Check for saved progress
+        let savedState = SavedProgress.hasSavedGame(for: chain.id) ? SavedProgress.load()?.gameState : nil
+        _viewModel = StateObject(wrappedValue: GameViewModel(chain: chain, dictionary: dictionary, savedState: savedState))
+    }
+
+    var body: some View {
+        ZStack {
+            // Background gradient
+            LinearGradient(
+                gradient: Gradient(colors: [
+                    Color.blue.opacity(0.1),
+                    Color.purple.opacity(0.1)
+                ]),
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+            .ignoresSafeArea()
+
+            VStack(spacing: 20) {
+                // Header
+                header
+
+                Spacer()
+
+                // Game board - fixed position from top
+                VStack(alignment: .leading, spacing: 16) {
+                    // Completed rows (locked at top)
+                    ForEach(Array(viewModel.completedRows.enumerated()), id: \.offset) { index, tiles in
+                        RowView(tiles: tiles, isLocked: true)
+                    }
+
+                    // Current active row with typewriter effect
+                    if !viewModel.gameState.isComplete {
+                        currentRow
+                    }
+
+                    // Spacer to prevent content from centering
+                    Spacer()
+                }
+                .padding(.top, 40) // Fixed distance from top
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.leading, 20)
+                .offset(x: invalidShake ? -10 : 0)
+                .animation(
+                    invalidShake ? Animation.linear(duration: 0.1).repeatCount(5, autoreverses: true) : .default,
+                    value: invalidShake
+                )
+
+                Spacer()
+
+                // Submit button
+                submitButton
+            }
+            .padding()
+
+            // Feedback overlays
+            if viewModel.showingValidFeedback {
+                FeedbackOverlay(message: viewModel.feedbackMessage, isValid: true)
+            }
+
+            if viewModel.showingInvalidFeedback {
+                FeedbackOverlay(message: viewModel.feedbackMessage, isValid: false)
+            }
+        }
+        .sheet(isPresented: $viewModel.showingWinScreen) {
+            WinScreen(onRestart: {
+                viewModel.restartGame()
+            })
+        }
+        .onChange(of: viewModel.showingInvalidFeedback) { oldValue, newValue in
+            if newValue {
+                invalidShake = true
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    invalidShake = false
+                }
+            }
+        }
+        .onChange(of: viewModel.showingValidFeedback) { oldValue, newValue in
+            if newValue {
+                playSuccessAnimation()
+            }
+        }
+        .onChange(of: viewModel.currentTiles.count) { oldValue, newValue in
+            // Trigger typewriter when new tiles appear
+            if newValue > 0 {
+                showTilesTypewriter()
+            }
+        }
+        .onAppear {
+            // Show initial tiles on first load
+            showTilesTypewriter()
+        }
+    }
+
+    // MARK: - Header
+
+    private var header: some View {
+        HStack {
+            // Close button
+            Button {
+                dismiss()
+            } label: {
+                Image(systemName: "xmark.circle.fill")
+                    .font(.title2)
+                    .foregroundColor(.secondary)
+            }
+
+            Spacer()
+
+            // Progress indicator
+            VStack(spacing: 4) {
+                Text("Level \(viewModel.gameState.currentLevel)")
+                    .font(.headline)
+
+                Text(viewModel.currentLevelInfo)
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+            }
+
+            Spacer()
+
+            // Restart button
+            Button {
+                viewModel.restartGame()
+                visibleTileCount = 0
+                showTilesTypewriter()
+            } label: {
+                Image(systemName: "arrow.counterclockwise.circle.fill")
+                    .font(.title2)
+                    .foregroundColor(.blue)
+            }
+        }
+    }
+
+    // MARK: - Current Row
+
+    @Environment(\.horizontalSizeClass) var sizeClass
+
+    private var tileSize: CGFloat {
+        // Calculate size to fit 8 letters (maximum) - use this for all rows
+        // Use a safe estimate for screen width
+        let screenWidth: CGFloat = 400 // Reasonable estimate for most phones
+        let padding: CGFloat = 40
+        let maxLetters: CGFloat = 8
+        let spacing: CGFloat = 8 * (maxLetters - 1)
+        let availableWidth = screenWidth - padding - spacing
+        let size = availableWidth / maxLetters
+        return min(size, 60) // Cap at 60pt
+    }
+
+    private var currentRow: some View {
+        HStack(spacing: 8) {
+            ForEach(Array(viewModel.currentTiles.enumerated()), id: \.element.id) { index, tile in
+                if index < visibleTileCount {
+                    LetterTileView(
+                        tile: tile,
+                        isSelected: viewModel.firstTappedTile == tile.id,
+                        isDragging: false,
+                        size: tileSize
+                    )
+                    .transition(.scale.combined(with: .opacity))
+                    .onTapGesture {
+                        // Haptic feedback
+                        let impact = UIImpactFeedbackGenerator(style: .light)
+                        impact.impactOccurred()
+
+                        viewModel.handleTileTap(tile.id)
+                    }
+                }
+            }
+        }
+    }
+
+    private func showTilesTypewriter() {
+        // Reset and show all tiles
+        visibleTileCount = 0
+
+        // Wait a brief moment for tiles to be ready, then animate them in
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            let totalTiles = viewModel.currentTiles.count
+            for i in 0..<totalTiles {
+                DispatchQueue.main.asyncAfter(deadline: .now() + Double(i) * 0.15) {
+                    withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+                        visibleTileCount = i + 1
+                    }
+                }
+            }
+        }
+    }
+
+    // MARK: - Animations
+
+    private func playSuccessAnimation() {
+        // Animation is now handled by onChange of currentTiles.count
+    }
+
+    // MARK: - Submit Button
+
+    private var submitButton: some View {
+        HStack(spacing: 12) {
+            // Shuffle button
+            Button {
+                viewModel.shuffleTiles()
+            } label: {
+                HStack {
+                    Image(systemName: "shuffle")
+                    Text("Shuffle")
+                }
+                .font(.headline)
+                .foregroundColor(.white)
+                .frame(maxWidth: .infinity)
+                .padding()
+                .background(Color.orange)
+                .cornerRadius(12)
+            }
+            .disabled(viewModel.droppingToNextRow)
+
+            // Submit button
+            Button {
+                Task {
+                    await viewModel.submitWord()
+                }
+            } label: {
+                HStack {
+                    Image(systemName: "checkmark.circle.fill")
+                    Text("Submit")
+                }
+                .font(.headline)
+                .foregroundColor(.white)
+                .frame(maxWidth: .infinity)
+                .padding()
+                .background(Color.blue)
+                .cornerRadius(12)
+            }
+            .disabled(viewModel.droppingToNextRow)
+        }
+    }
+}
+
+// MARK: - Row View
+
+struct RowView: View {
+    let tiles: [LetterTile]
+    let isLocked: Bool
+
+    private var tileSize: CGFloat {
+        // Use same calculation as current row for uniformity
+        let screenWidth: CGFloat = 400
+        let padding: CGFloat = 40
+        let maxLetters: CGFloat = 8
+        let spacing: CGFloat = 8 * (maxLetters - 1)
+        let availableWidth = screenWidth - padding - spacing
+        let size = availableWidth / maxLetters
+        return min(size, 60)
+    }
+
+    var body: some View {
+        HStack(spacing: 8) {
+            ForEach(tiles) { tile in
+                LetterTileView(
+                    tile: tile,
+                    isSelected: false,
+                    isDragging: false,
+                    size: tileSize
+                )
+            }
+        }
+        .opacity(isLocked ? 0.5 : 1.0)
+    }
+}
+
+#Preview {
+    let chain = AnagramChain(
+        name: "Test Chain",
+        description: "Test",
+        difficulty: .easy,
+        levels: [
+            AnagramLevel(letterCount: 3, letters: "CAT", intendedWord: "CAT"),
+            AnagramLevel(letterCount: 4, addedLetter: "R", intendedWord: "CART")
+        ]
+    )
+
+    GameView(chain: chain)
+}
