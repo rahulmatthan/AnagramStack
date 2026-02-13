@@ -260,10 +260,12 @@ struct SimpleAdminView: View {
                 .sorted { $0.lastPathComponent < $1.lastPathComponent }
 
             var manifestChains: [[String: Any]] = []
+            let decoder = JSONDecoder()
+            decoder.dateDecodingStrategy = .iso8601
 
             for (index, fileURL) in chainFiles.enumerated() {
                 if let data = try? Data(contentsOf: fileURL),
-                   let chain = try? JSONDecoder().decode(AnagramChain.self, from: data) {
+                   let chain = try? decoder.decode(AnagramChain.self, from: data) {
 
                     let entry: [String: Any] = [
                         "id": "chain-\(String(format: "%03d", index + 1))",
@@ -630,8 +632,8 @@ struct LevelQuickEditView: View {
             // Replace the level in the chain
             updatedChain.levels[levelIndex] = updatedLevel
 
-            // Update the chain in viewModel
-            viewModel.chains[chainIndex] = updatedChain
+            // Update selectedChain so saveChain() writes the edited version.
+            viewModel.updateChain(updatedChain)
             viewModel.saveChain()
 
             print("✅ Saved: Level \(levelNumber) - addedLetter=\(addedLetter), intendedWord=\(intendedWord)")

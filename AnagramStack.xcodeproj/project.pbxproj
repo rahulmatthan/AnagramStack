@@ -30,6 +30,7 @@
 		B79C2B3F2F3E4CCB001AE71D /* WordGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79C2B3E2F3E4CCB001AE71D /* WordGraph.swift */; };
 		B79C2B402F3E4CCB001AE71D /* WordGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79C2B3E2F3E4CCB001AE71D /* WordGraph.swift */; };
 		B79C2B452F3ED379001AE71D /* ChainDownloadService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79C2B442F3ED379001AE71D /* ChainDownloadService.swift */; };
+		B79C2B4A2F3EE000001AE71D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B79C2B492F3EE000001AE71D /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -88,6 +89,7 @@
 		B79C2B172F3DF7A9001AE71D /* AnagramStackAdminUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AnagramStackAdminUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B79C2B3E2F3E4CCB001AE71D /* WordGraph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordGraph.swift; sourceTree = "<group>"; };
 		B79C2B442F3ED379001AE71D /* ChainDownloadService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChainDownloadService.swift; sourceTree = "<group>"; };
+		B79C2B492F3EE000001AE71D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -241,18 +243,19 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
-		B79C2AE72F3DBA90001AE71D /* AnagramStackClient */ = {
-			isa = PBXGroup;
-			children = (
-				B79C2ADC2F3DBA90001AE71D /* Models */,
-				B79C2ADD2F3DBA90001AE71D /* Services */,
-				B79C2ADF2F3DBA90001AE71D /* ViewModels */,
-				B79C2AE52F3DBA90001AE71D /* Views */,
-				B79C2AE62F3DBA90001AE71D /* AnagramStackClientApp.swift */,
-			);
-			path = AnagramStackClient;
-			sourceTree = "<group>";
-		};
+			B79C2AE72F3DBA90001AE71D /* AnagramStackClient */ = {
+				isa = PBXGroup;
+				children = (
+					B79C2ADC2F3DBA90001AE71D /* Models */,
+					B79C2ADD2F3DBA90001AE71D /* Services */,
+					B79C2ADF2F3DBA90001AE71D /* ViewModels */,
+					B79C2AE52F3DBA90001AE71D /* Views */,
+					B79C2B492F3EE000001AE71D /* Assets.xcassets */,
+					B79C2AE62F3DBA90001AE71D /* AnagramStackClientApp.swift */,
+				);
+				path = AnagramStackClient;
+				sourceTree = "<group>";
+			};
 		B79C2AF32F3DBA9F001AE71D /* chains */ = {
 			isa = PBXGroup;
 			children = (
@@ -466,14 +469,15 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		B79C2AA62F3DB80C001AE71D /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				B79C2AF72F3DBA9F001AE71D /* words_alpha.txt in Resources */,
-				B79C2AF82F3DBA9F001AE71D /* sample-chain-001.json in Resources */,
-				B79C2AF92F3DBA9F001AE71D /* dictionary.txt in Resources */,
-			);
+			B79C2AA62F3DB80C001AE71D /* Resources */ = {
+				isa = PBXResourcesBuildPhase;
+				buildActionMask = 2147483647;
+				files = (
+					B79C2B4A2F3EE000001AE71D /* Assets.xcassets in Resources */,
+					B79C2AF72F3DBA9F001AE71D /* words_alpha.txt in Resources */,
+					B79C2AF82F3DBA9F001AE71D /* sample-chain-001.json in Resources */,
+					B79C2AF92F3DBA9F001AE71D /* dictionary.txt in Resources */,
+				);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		B79C2AB32F3DB80D001AE71D /* Resources */ = {
@@ -723,6 +727,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				AUTOMATION_APPLE_EVENTS = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -737,6 +742,7 @@
 				ENABLE_RESOURCE_ACCESS_LOCATION = NO;
 				ENABLE_RESOURCE_ACCESS_PHOTO_LIBRARY = NO;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Anagram Stack";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -779,6 +785,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				AUTOMATION_APPLE_EVENTS = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -793,6 +800,7 @@
 				ENABLE_RESOURCE_ACCESS_LOCATION = NO;
 				ENABLE_RESOURCE_ACCESS_PHOTO_LIBRARY = NO;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Anagram Stack";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;

@@ -19,6 +19,7 @@ class ChainDownloadService: ObservableObject {
 
     private let manifestURL = "https://raw.githubusercontent.com/rahulmatthan/anagram-chains-data/master/manifest.json"
     private let cacheDirectory: URL
+    private let manifestLastUpdatedKey = "com.anagramstack.client.manifestLastUpdated"
 
     init() {
         // Cache directory for downloaded chains
@@ -68,9 +69,17 @@ class ChainDownloadService: ObservableObject {
             // Update available chains
             availableChains = manifest.chains
 
-            // Download new chains
+            // Force refresh cached files when manifest timestamp changes.
+            let previousManifestUpdate = UserDefaults.standard.string(forKey: manifestLastUpdatedKey)
+            let shouldForceRefresh = previousManifestUpdate != manifest.lastUpdated
+
+            // Download new or refreshed chains
             for metadata in manifest.chains {
-                await downloadChainIfNeeded(metadata: metadata)
+                await downloadChainIfNeeded(metadata: metadata, forceRefresh: shouldForceRefresh)
+            }
+
+            if shouldForceRefresh {
+                UserDefaults.standard.set(manifest.lastUpdated, forKey: manifestLastUpdatedKey)
             }
 
             // Reload cached chains
@@ -98,11 +107,11 @@ class ChainDownloadService: ObservableObject {
 
     // MARK: - Private Methods
 
-    private func downloadChainIfNeeded(metadata: ChainMetadata) async {
+    private func downloadChainIfNeeded(metadata: ChainMetadata, forceRefresh: Bool = false) async {
         let cacheURL = cacheDirectory.appendingPathComponent("\(metadata.id).json")
 
         // Check if already cached
-        if FileManager.default.fileExists(atPath: cacheURL.path) {
+        if !forceRefresh && FileManager.default.fileExists(atPath: cacheURL.path) {
             print("✅ Chain already cached: \(metadata.id)")
             return
         }

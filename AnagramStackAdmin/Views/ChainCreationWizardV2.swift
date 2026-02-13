@@ -272,14 +272,8 @@ struct ChainCreationWizardV2: View {
 
             print("   Level \(i + 1): prevSig=\(prevSig), currSig=\(currSig)")
 
-            // Find the added letter
-            var addedLetter: String = ""
-            for char in currSig {
-                if !prevSig.contains(char) {
-                    addedLetter = String(char)
-                    break
-                }
-            }
+            // Find the added letter using multiset diff (handles duplicate letters correctly).
+            let addedLetter = addedLetter(from: prevSig, to: currSig) ?? ""
 
             print("   Level \(i + 1): word=\(word), addedLetter='\(addedLetter)'")
 
@@ -307,6 +301,24 @@ struct ChainCreationWizardV2: View {
         onComplete(chain)
         dismiss()
     }
+
+    private func addedLetter(from previous: String, to current: String) -> String? {
+        var previousCounts: [Character: Int] = [:]
+        for char in previous {
+            previousCounts[char, default: 0] += 1
+        }
+
+        for char in current {
+            let remaining = previousCounts[char, default: 0]
+            if remaining > 0 {
+                previousCounts[char] = remaining - 1
+            } else {
+                return String(char).uppercased()
+            }
+        }
+
+        return nil
+    }
 }
 
 // MARK: - Letter Option Row
@@ -320,12 +332,7 @@ struct LetterOptionRow: View {
     let onSelect: (String) -> Void
 
     var addedLetter: String {
-        for char in signature {
-            if !previousSignature.contains(char) {
-                return String(char).uppercased()
-            }
-        }
-        return "?"
+        return addedLetter(from: previousSignature, to: signature) ?? "?"
     }
 
     var body: some View {
@@ -382,6 +389,24 @@ struct LetterOptionRow: View {
         .padding()
         .background(Color(.controlBackgroundColor))
         .cornerRadius(8)
+    }
+
+    private func addedLetter(from previous: String, to current: String) -> String? {
+        var previousCounts: [Character: Int] = [:]
+        for char in previous {
+            previousCounts[char, default: 0] += 1
+        }
+
+        for char in current {
+            let remaining = previousCounts[char, default: 0]
+            if remaining > 0 {
+                previousCounts[char] = remaining - 1
+            } else {
+                return String(char).uppercased()
+            }
+        }
+
+        return nil
     }
 }
 

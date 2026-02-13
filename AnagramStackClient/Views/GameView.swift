@@ -14,10 +14,11 @@ struct GameView: View {
     @State private var invalidShake = false
     @State private var visibleTileCount = 0
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.scenePhase) private var scenePhase
 
     init(chain: AnagramChain, dictionary: WordDictionary = .shared) {
         // Check for saved progress
-        let savedState = SavedProgress.hasSavedGame(for: chain.id) ? SavedProgress.load()?.gameState : nil
+        let savedState = SavedProgress.loadResumableGameState(for: chain)
         _viewModel = StateObject(wrappedValue: GameViewModel(chain: chain, dictionary: dictionary, savedState: savedState))
     }
 
@@ -48,7 +49,7 @@ struct GameView: View {
                     }
 
                     // Current active row with typewriter effect
-                    if !viewModel.gameState.isComplete {
+                    if !viewModel.isGameComplete {
                         currentRow
                     }
 
@@ -65,6 +66,8 @@ struct GameView: View {
                 )
 
                 Spacer()
+
+                instructionText
 
                 // Submit button
                 submitButton
@@ -107,6 +110,17 @@ struct GameView: View {
         .onAppear {
             // Show initial tiles on first load
             showTilesTypewriter()
+            viewModel.startSolvingTimer()
+        }
+        .onDisappear {
+            viewModel.pauseSolvingTimer()
+        }
+        .onChange(of: scenePhase) { _, newPhase in
+            if newPhase == .active {
+                viewModel.startSolvingTimer()
+            } else {
+                viewModel.pauseSolvingTimer()
+            }
         }
     }
 
@@ -127,11 +141,15 @@ struct GameView: View {
 
             // Progress indicator
             VStack(spacing: 4) {
-                Text("Level \(viewModel.gameState.currentLevel)")
+                Text("Level \(viewModel.currentLevelNumber)")
                     .font(.headline)
 
                 Text(viewModel.currentLevelInfo)
                     .font(.caption)
+                    .foregroundColor(.secondary)
+
+                Text(viewModel.formattedElapsedTime)
+                    .font(.caption2)
                     .foregroundColor(.secondary)
             }
 
@@ -213,6 +231,14 @@ struct GameView: View {
     }
 
     // MARK: - Submit Button
+
+    private var instructionText: some View {
+        Text("Rearrange the letters to create valid words. If you succeed, you unlock a new letter. How quickly can you get to 8 letters")
+            .font(.footnote)
+            .foregroundColor(.secondary)
+            .multilineTextAlignment(.center)
+            .padding(.horizontal, 12)
+    }
 
     private var submitButton: some View {
         HStack(spacing: 12) {

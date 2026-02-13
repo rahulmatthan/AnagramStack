@@ -32,6 +32,8 @@ class GameViewModel: ObservableObject {
 
     private let chain: AnagramChain
     private let dictionary: WordDictionary
+    private var totalLevels: Int { chain.levels.count }
+    private var timerTask: Task<Void, Never>?
 
     // MARK: - Initialization
 
@@ -46,6 +48,10 @@ class GameViewModel: ObservableObject {
         }
 
         setupGame()
+    }
+
+    deinit {
+        timerTask?.cancel()
     }
 
     // MARK: - Game Setup
@@ -78,7 +84,7 @@ class GameViewModel: ObservableObject {
         }
 
         // Check if game is already won
-        if gameState.isComplete {
+        if isGameComplete {
             showingWinScreen = true
         }
     }
@@ -231,7 +237,8 @@ class GameViewModel: ObservableObject {
         droppingToNextRow = false
 
         // Check if won
-        if gameState.isComplete {
+        if isGameComplete {
+            pauseSolvingTimer()
             try? await Task.sleep(nanoseconds: 500_000_000) // 0.5s
             showingWinScreen = true
         } else {
@@ -265,14 +272,44 @@ class GameViewModel: ObservableObject {
 
     /// Restart the current chain
     func restartGame() {
+        pauseSolvingTimer()
         gameState = GameState(chainId: chain.id)
         completedRows.removeAll()
         currentTiles.removeAll()
         showingWinScreen = false
         firstTappedTile = nil
 
-        SavedProgress.clear()
+        SavedProgress.clear(for: chain.id)
         setupGame()
+    }
+
+    /// Start (or resume) the active solving timer.
+    func startSolvingTimer() {
+        guard timerTask == nil, !isGameComplete else { return }
+
+        timerTask = Task { [weak self] in
+            guard let self else { return }
+
+            while !Task.isCancelled {
+                try? await Task.sleep(nanoseconds: 1_000_000_000)
+                guard !Task.isCancelled else { return }
+                guard !self.isGameComplete else {
+                    self.pauseSolvingTimer()
+                    return
+                }
+
+                self.gameState.elapsedSeconds += 1
+                self.gameState.lastUpdated = Date()
+                SavedProgress.save(self.gameState)
+            }
+        }
+    }
+
+    /// Pause timer when user leaves the game screen.
+    func pauseSolvingTimer() {
+        timerTask?.cancel()
+        timerTask = nil
+        SavedProgress.save(gameState)
     }
 
     /// Get current level info
@@ -286,6 +323,22 @@ class GameViewModel: ObservableObject {
 
     /// Get progress percentage
     var progressPercentage: Double {
-        return gameState.progress
+        guard totalLevels > 0 else { return 0 }
+        return Double(gameState.completedRows.count) / Double(totalLevels)
+    }
+
+    /// Elapsed solve time text.
+    var formattedElapsedTime: String {
+        SavedProgress.formatElapsedTime(gameState.elapsedSeconds)
+    }
+
+    /// Check if game is complete using the chain's actual level count.
+    var isGameComplete: Bool {
+        return gameState.currentRowIndex >= totalLevels || gameState.completedRows.count >= totalLevels
+    }
+
+    /// Get the current level number using the chain's actual level count.
+    var currentLevelNumber: Int {
+        return min(gameState.currentRowIndex + 1, max(totalLevels, 1))
     }
 }

@@ -20,6 +20,9 @@ struct GameState: Codable, Equatable {
     /// Current progress timestamp
     var lastUpdated: Date
 
+    /// Total active solve time in seconds.
+    var elapsedSeconds: Int
+
     struct CompletedRow: Codable, Equatable {
         let levelIndex: Int
         let letters: String
@@ -27,11 +30,35 @@ struct GameState: Codable, Equatable {
         let timestamp: Date
     }
 
-    init(chainId: UUID, currentRowIndex: Int = 0, completedRows: [CompletedRow] = [], lastUpdated: Date = Date()) {
+    init(
+        chainId: UUID,
+        currentRowIndex: Int = 0,
+        completedRows: [CompletedRow] = [],
+        lastUpdated: Date = Date(),
+        elapsedSeconds: Int = 0
+    ) {
         self.chainId = chainId
         self.currentRowIndex = currentRowIndex
         self.completedRows = completedRows
         self.lastUpdated = lastUpdated
+        self.elapsedSeconds = elapsedSeconds
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case chainId
+        case currentRowIndex
+        case completedRows
+        case lastUpdated
+        case elapsedSeconds
+    }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        chainId = try container.decode(UUID.self, forKey: .chainId)
+        currentRowIndex = try container.decode(Int.self, forKey: .currentRowIndex)
+        completedRows = try container.decode([CompletedRow].self, forKey: .completedRows)
+        lastUpdated = try container.decode(Date.self, forKey: .lastUpdated)
+        elapsedSeconds = try container.decodeIfPresent(Int.self, forKey: .elapsedSeconds) ?? 0
     }
 
     /// Check if game is complete
