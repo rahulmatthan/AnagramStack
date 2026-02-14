@@ -23,6 +23,9 @@ struct GameState: Codable, Equatable {
     /// Total active solve time in seconds.
     var elapsedSeconds: Int
 
+    /// Total hints used across this chain run.
+    var hintsUsedCount: Int
+
     struct CompletedRow: Codable, Equatable {
         let levelIndex: Int
         let letters: String
@@ -35,13 +38,15 @@ struct GameState: Codable, Equatable {
         currentRowIndex: Int = 0,
         completedRows: [CompletedRow] = [],
         lastUpdated: Date = Date(),
-        elapsedSeconds: Int = 0
+        elapsedSeconds: Int = 0,
+        hintsUsedCount: Int = 0
     ) {
         self.chainId = chainId
         self.currentRowIndex = currentRowIndex
         self.completedRows = completedRows
         self.lastUpdated = lastUpdated
         self.elapsedSeconds = elapsedSeconds
+        self.hintsUsedCount = hintsUsedCount
     }
 
     private enum CodingKeys: String, CodingKey {
@@ -50,6 +55,7 @@ struct GameState: Codable, Equatable {
         case completedRows
         case lastUpdated
         case elapsedSeconds
+        case hintsUsedCount
     }
 
     init(from decoder: Decoder) throws {
@@ -59,6 +65,7 @@ struct GameState: Codable, Equatable {
         completedRows = try container.decode([CompletedRow].self, forKey: .completedRows)
         lastUpdated = try container.decode(Date.self, forKey: .lastUpdated)
         elapsedSeconds = try container.decodeIfPresent(Int.self, forKey: .elapsedSeconds) ?? 0
+        hintsUsedCount = try container.decodeIfPresent(Int.self, forKey: .hintsUsedCount) ?? 0
     }
 
     /// Check if game is complete

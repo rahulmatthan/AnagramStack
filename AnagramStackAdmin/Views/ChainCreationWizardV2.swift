@@ -7,6 +7,24 @@
 
 import SwiftUI
 
+private func addedLetterBetweenSignatures(from previous: String, to current: String) -> String? {
+    var previousCounts: [Character: Int] = [:]
+    for char in previous {
+        previousCounts[char, default: 0] += 1
+    }
+
+    for char in current {
+        let remaining = previousCounts[char, default: 0]
+        if remaining > 0 {
+            previousCounts[char] = remaining - 1
+        } else {
+            return String(char).uppercased()
+        }
+    }
+
+    return nil
+}
+
 struct ChainCreationWizardV2: View {
     let wordGraph: WordGraph
     let onComplete: (AnagramChain) -> Void
@@ -18,6 +36,7 @@ struct ChainCreationWizardV2: View {
     @State private var difficulty: AnagramChain.Difficulty = .medium
     @State private var selectedWords: [String?] = [nil, nil, nil, nil, nil, nil]  // 6 levels
     @State private var selectedSignatures: [String?] = [nil, nil, nil, nil, nil, nil]
+    @State private var startWordSearch: String = ""
 
     var currentLevel: Int {
         // Find the first empty slot
@@ -25,6 +44,17 @@ struct ChainCreationWizardV2: View {
             return index
         }
         return 6 // All filled
+    }
+
+    private var filteredStartSignatures: [String] {
+        let trimmed = startWordSearch.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmed.isEmpty else { return wordGraph.viableStarts }
+
+        let query = trimmed.uppercased()
+        return wordGraph.viableStarts.filter { signature in
+            guard let representative = wordGraph.representativeWord(for: signature) else { return false }
+            return representative.localizedCaseInsensitiveContains(query)
+        }
     }
 
     var body: some View {
@@ -146,28 +176,40 @@ struct ChainCreationWizardV2: View {
     // MARK: - Starting Word Selection
 
     private var startingWordSelection: some View {
-        LazyVGrid(columns: [GridItem(.adaptive(minimum: 100))], spacing: 12) {
-            ForEach(wordGraph.viableStarts.prefix(100), id: \.self) { signature in
-                let words = wordGraph.words(for: signature)
-                if let word = words.first {
-                    Button {
-                        selectWord(word, signature: signature, atLevel: 0)
-                    } label: {
-                        VStack(spacing: 4) {
-                            Text(word.uppercased())
-                                .font(.title3)
-                                .fontWeight(.bold)
+        VStack(spacing: 12) {
+            TextField("Search start words...", text: $startWordSearch)
+                .textFieldStyle(.roundedBorder)
 
-                            Text("\(words.count) variants")
-                                .font(.caption2)
-                                .foregroundColor(.secondary)
+            HStack {
+                Text("\(filteredStartSignatures.count) options")
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+                Spacer()
+            }
+
+            LazyVGrid(columns: [GridItem(.adaptive(minimum: 100))], spacing: 12) {
+                ForEach(filteredStartSignatures, id: \.self) { signature in
+                    let words = wordGraph.words(for: signature)
+                    if let word = words.first {
+                        Button {
+                            selectWord(word, signature: signature, atLevel: 0)
+                        } label: {
+                            VStack(spacing: 4) {
+                                Text(word.uppercased())
+                                    .font(.title3)
+                                    .fontWeight(.bold)
+
+                                Text("\(words.count) variants")
+                                    .font(.caption2)
+                                    .foregroundColor(.secondary)
+                            }
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 8)
+                            .background(selectedWords[0] == word ? Color.accentColor.opacity(0.2) : Color(.controlBackgroundColor))
+                            .cornerRadius(6)
                         }
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 8)
-                        .background(selectedWords[0] == word ? Color.accentColor.opacity(0.2) : Color(.controlBackgroundColor))
-                        .cornerRadius(6)
+                        .buttonStyle(.plain)
                     }
-                    .buttonStyle(.plain)
                 }
             }
         }
@@ -273,7 +315,7 @@ struct ChainCreationWizardV2: View {
             print("   Level \(i + 1): prevSig=\(prevSig), currSig=\(currSig)")
 
             // Find the added letter using multiset diff (handles duplicate letters correctly).
-            let addedLetter = addedLetter(from: prevSig, to: currSig) ?? ""
+            let addedLetter = addedLetterBetweenSignatures(from: prevSig, to: currSig) ?? ""
 
             print("   Level \(i + 1): word=\(word), addedLetter='\(addedLetter)'")
 
@@ -301,24 +343,6 @@ struct ChainCreationWizardV2: View {
         onComplete(chain)
         dismiss()
     }
-
-    private func addedLetter(from previous: String, to current: String) -> String? {
-        var previousCounts: [Character: Int] = [:]
-        for char in previous {
-            previousCounts[char, default: 0] += 1
-        }
-
-        for char in current {
-            let remaining = previousCounts[char, default: 0]
-            if remaining > 0 {
-                previousCounts[char] = remaining - 1
-            } else {
-                return String(char).uppercased()
-            }
-        }
-
-        return nil
-    }
 }
 
 // MARK: - Letter Option Row
@@ -332,7 +356,7 @@ struct LetterOptionRow: View {
     let onSelect: (String) -> Void
 
     var addedLetter: String {
-        return addedLetter(from: previousSignature, to: signature) ?? "?"
+        return addedLetterBetweenSignatures(from: previousSignature, to: signature) ?? "?"
     }
 
     var body: some View {
@@ -389,24 +413,6 @@ struct LetterOptionRow: View {
         .padding()
         .background(Color(.controlBackgroundColor))
         .cornerRadius(8)
-    }
-
-    private func addedLetter(from previous: String, to current: String) -> String? {
-        var previousCounts: [Character: Int] = [:]
-        for char in previous {
-            previousCounts[char, default: 0] += 1
-        }
-
-        for char in current {
-            let remaining = previousCounts[char, default: 0]
-            if remaining > 0 {
-                previousCounts[char] = remaining - 1
-            } else {
-                return String(char).uppercased()
-            }
-        }
-
-        return nil
     }
 }
 

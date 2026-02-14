@@ -41,9 +41,12 @@ class AdminAppState: ObservableObject {
     let wordGraph = WordGraph(dictionary: .shared)
 
     func loadDictionary() async {
-        // Get the dictionary file path
-        guard let path = Bundle.main.path(forResource: "dictionary", ofType: "txt") else {
-            loadingError = "Dictionary file not found in bundle"
+        // Prefer broader dictionary; fall back to the smaller list.
+        let path = Bundle.main.path(forResource: "words_alpha", ofType: "txt")
+            ?? Bundle.main.path(forResource: "dictionary", ofType: "txt")
+
+        guard let path else {
+            loadingError = "Dictionary files not found in bundle"
             return
         }
 

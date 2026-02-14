@@ -9,6 +9,7 @@ import SwiftUI
 
 struct WinScreen: View {
     let onRestart: () -> Void
+    let onChooseAnotherChain: () -> Void
     @Environment(\.dismiss) private var dismiss
 
     var body: some View {
@@ -16,8 +17,8 @@ struct WinScreen: View {
             // Background gradient
             LinearGradient(
                 gradient: Gradient(colors: [
-                    Color.green.opacity(0.3),
-                    Color.blue.opacity(0.3)
+                    BrandPalette.backgroundTop,
+                    BrandPalette.backgroundBottom
                 ]),
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing
@@ -30,11 +31,11 @@ struct WinScreen: View {
                 // Trophy icon with animation
                 Image(systemName: "trophy.fill")
                     .font(.system(size: 80))
-                    .foregroundColor(.yellow)
+                    .foregroundColor(BrandPalette.trophy)
                     .shadow(radius: 10)
-                    .scaleEffect(animationPhase ? 1.1 : 1.0)
+                    .scaleEffect(animationPhase ? 1.05 : 1.0)
                     .animation(
-                        Animation.easeInOut(duration: 0.8).repeatForever(autoreverses: true),
+                        Animation.easeInOut(duration: 1.6).repeatForever(autoreverses: true),
                         value: animationPhase
                     )
 
@@ -62,19 +63,19 @@ struct WinScreen: View {
                             .foregroundColor(.white)
                             .frame(maxWidth: .infinity)
                             .padding()
-                            .background(Color.green)
+                            .background(BrandPalette.success)
                             .cornerRadius(12)
                     }
 
                     Button {
-                        dismiss()
+                        onChooseAnotherChain()
                     } label: {
                         Text("Choose Another Chain")
                             .font(.headline)
                             .foregroundColor(.white)
                             .frame(maxWidth: .infinity)
                             .padding()
-                            .background(Color.blue)
+                            .background(BrandPalette.primary)
                             .cornerRadius(12)
                     }
                 }
@@ -92,6 +93,7 @@ struct WinScreen: View {
     @State private var animationPhase = false
 }
 
+
 #Preview {
-    WinScreen(onRestart: {})
+    WinScreen(onRestart: {}, onChooseAnotherChain: {})
 }

@@ -6,37 +6,80 @@
 //
 
 import SwiftUI
-import Combine
 
 struct ChainSelectionView: View {
     let chains: [AnagramChain]
     @EnvironmentObject var appState: ClientAppState
-    @State private var selectedChain: AnagramChain?
     @State private var isRefreshing = false
     @AppStorage("com.anagramstack.savedProgressByChain") private var savedProgressBlob: Data = Data()
 
-    private enum ChainPlayStatus {
+    enum ChainPlayStatus {
         case inProgress
         case unplayed
         case completed
     }
 
-    private var sortedChains: [AnagramChain] {
+    struct ChainDisplayItem: Identifiable {
+        let chain: AnagramChain
+        let status: ChainPlayStatus
+        let completionRatio: Double?
+        let completedLabelText: String?
+
+        var id: UUID { chain.id }
+    }
+
+    private var chainDisplayItems: [ChainDisplayItem] {
         // Reference persisted progress so this computed property re-evaluates
         // immediately when returning from a game.
         _ = savedProgressBlob
-        return chains.sorted { lhs, rhs in
-            let lhsStatus = status(for: lhs)
-            let rhsStatus = status(for: rhs)
 
-            let lhsRank = statusRank(lhsStatus)
-            let rhsRank = statusRank(rhsStatus)
+        return chains.map { chain in
+            let completionRatio = SavedProgress.completionRatio(for: chain)
+            let isCompleted = SavedProgress.isCompleted(for: chain)
+            let status: ChainPlayStatus
+
+            if isCompleted {
+                status = .completed
+            } else if let completionRatio, completionRatio > 0 {
+                status = .inProgress
+            } else {
+                status = .unplayed
+            }
+
+            let completedLabelText: String?
+            if isCompleted {
+                completedLabelText = completedText(for: chain)
+            } else {
+                completedLabelText = nil
+            }
+
+            return ChainDisplayItem(
+                chain: chain,
+                status: status,
+                completionRatio: completionRatio,
+                completedLabelText: completedLabelText
+            )
+        }
+    }
+
+    private var activeChains: [ChainDisplayItem] {
+        chainDisplayItems
+            .filter { $0.status != .completed }
+            .sorted { lhs, rhs in
+            let lhsRank = statusRank(lhs.status)
+            let rhsRank = statusRank(rhs.status)
             if lhsRank != rhsRank {
                 return lhsRank < rhsRank
             }
 
-            return lhs.modifiedDate > rhs.modifiedDate
+            return lhs.chain.modifiedDate > rhs.chain.modifiedDate
         }
+    }
+
+    private var completedChains: [ChainDisplayItem] {
+        chainDisplayItems
+            .filter { $0.status == .completed }
+            .sorted { $0.chain.modifiedDate > $1.chain.modifiedDate }
     }
 
     var body: some View {
@@ -45,9 +88,22 @@ struct ChainSelectionView: View {
                 emptyState
             } else {
                 List {
-                    ForEach(sortedChains) { chain in
-                        NavigationLink(value: chain) {
-                            ChainRow(chain: chain)
+                    ForEach(Array(activeChains.enumerated()), id: \.element.id) { index, item in
+                        NavigationLink(value: item.chain) {
+                            ChainRow(item: item, animationDelay: Double(index) * 0.03)
+                        }
+                    }
+
+                    if !completedChains.isEmpty {
+                        Section("Completed") {
+                            ForEach(Array(completedChains.enumerated()), id: \.element.id) { index, item in
+                                NavigationLink(value: item.chain) {
+                                    ChainRow(
+                                        item: item,
+                                        animationDelay: Double(activeChains.count + index) * 0.03
+                                    )
+                                }
+                            }
                         }
                     }
                 }
@@ -62,7 +118,7 @@ struct ChainSelectionView: View {
                     await refreshChains()
                 }
                 .toolbar {
-                    ToolbarItem(placement: .navigationBarTrailing) {
+                    ToolbarItem(placement: refreshToolbarPlacement) {
                         Button {
                             Task {
                                 await refreshChains()
@@ -82,6 +138,12 @@ struct ChainSelectionView: View {
         }
     }
 
+    #if os(iOS)
+    private var refreshToolbarPlacement: ToolbarItemPlacement { .navigationBarTrailing }
+    #else
+    private var refreshToolbarPlacement: ToolbarItemPlacement { .automatic }
+    #endif
+
     private func refreshChains() async {
         isRefreshing = true
         await appState.fetchChains()
@@ -96,19 +158,6 @@ struct ChainSelectionView: View {
         )
     }
 
-    private func status(for chain: AnagramChain) -> ChainPlayStatus {
-        if SavedProgress.isCompleted(for: chain) {
-            return .completed
-        }
-
-        if let completionRatio = SavedProgress.completionRatio(for: chain),
-           completionRatio > 0 {
-            return .inProgress
-        }
-
-        return .unplayed
-    }
-
     private func statusRank(_ status: ChainPlayStatus) -> Int {
         switch status {
         case .inProgress:
@@ -119,36 +168,41 @@ struct ChainSelectionView: View {
             return 2
         }
     }
+
+    private func completedText(for chain: AnagramChain) -> String {
+        if let elapsed = SavedProgress.completedElapsedSeconds(for: chain) {
+            if let hints = SavedProgress.completedHintsUsed(for: chain), hints > 0 {
+                let hintWord = hints == 1 ? "hint" : "hints"
+                return "Completed in \(SavedProgress.formatElapsedTime(elapsed)) • Using \(hints) \(hintWord)"
+            }
+            return "Completed in \(SavedProgress.formatElapsedTime(elapsed))"
+        }
+        return "Completed"
+    }
 }
 
 struct ChainRow: View {
-    let chain: AnagramChain
-
-    private var isCompleted: Bool {
-        SavedProgress.isCompleted(for: chain)
-    }
+    let item: ChainSelectionView.ChainDisplayItem
+    let animationDelay: Double
+    @State private var hasAppeared = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack {
-                Text(chain.name)
+                Text(item.chain.name)
                     .font(.headline)
-
-                Spacer()
-
-                DifficultyBadge(difficulty: chain.difficulty)
             }
 
-            Text(chain.description)
+            Text(item.chain.description)
                 .font(.subheadline)
                 .foregroundColor(.secondary)
                 .lineLimit(2)
 
-            if SavedProgress.isCompleted(for: chain) {
-                Label(completedLabelText, systemImage: "checkmark.circle.fill")
+            if item.status == .completed {
+                Label(item.completedLabelText ?? "Completed", systemImage: "checkmark.circle.fill")
                     .font(.caption)
-                    .foregroundColor(.green)
-            } else if let completionRatio = SavedProgress.completionRatio(for: chain),
+                    .foregroundColor(BrandPalette.success)
+            } else if let completionRatio = item.completionRatio,
                       completionRatio > 0 {
                 VStack(alignment: .leading, spacing: 4) {
                     Label(
@@ -156,50 +210,24 @@ struct ChainRow: View {
                         systemImage: "arrow.right.circle.fill"
                     )
                     .font(.caption)
-                    .foregroundColor(.blue)
+                    .foregroundColor(BrandPalette.primary)
 
                     ProgressView(value: completionRatio)
-                        .tint(.blue)
+                        .tint(BrandPalette.primary)
+                        .animation(.easeInOut(duration: 0.35), value: completionRatio)
                 }
             }
         }
         .padding(.vertical, 4)
-        .opacity(isCompleted ? 0.55 : 1.0)
-    }
-
-    private var completedLabelText: String {
-        if let elapsed = SavedProgress.completedElapsedSeconds(for: chain) {
-            return "Completed in \(SavedProgress.formatElapsedTime(elapsed))"
-        }
-        return "Completed"
-    }
-}
-
-struct DifficultyBadge: View {
-    let difficulty: AnagramChain.Difficulty
-
-    var body: some View {
-        Text(difficulty.displayName)
-            .font(.caption)
-            .fontWeight(.semibold)
-            .foregroundColor(.white)
-            .padding(.horizontal, 8)
-            .padding(.vertical, 4)
-            .background(color)
-            .cornerRadius(6)
-    }
-
-    private var color: Color {
-        switch difficulty {
-        case .easy:
-            return .green
-        case .medium:
-            return .orange
-        case .hard:
-            return .red
+        .opacity((item.status == .completed ? 0.55 : 1.0) * (hasAppeared ? 1.0 : 0.0))
+        .offset(y: hasAppeared ? 0 : 6)
+        .animation(.easeOut(duration: 0.28).delay(animationDelay), value: hasAppeared)
+        .onAppear {
+            hasAppeared = true
         }
     }
 }
+
 
 #Preview {
     ChainSelectionView(chains: [

@@ -34,6 +34,23 @@ struct SimpleAdminView: View {
         VStack(spacing: 0) {
             // ACTION HEADER
             HStack(spacing: 16) {
+                HStack(spacing: 10) {
+                    Image(systemName: "square.stack.3d.up.fill")
+                        .font(.system(size: 24, weight: .semibold))
+                        .foregroundColor(.accentColor)
+
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("Anagram Stack")
+                            .font(.headline)
+                        Text("Admin Studio")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                    }
+                }
+
+                Divider()
+                    .frame(height: 30)
+
                 Button {
                     showingWizard = true
                 } label: {

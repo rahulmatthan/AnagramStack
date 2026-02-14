@@ -27,6 +27,8 @@ class GameViewModel: ObservableObject {
     // Interaction Mode
     @Published var tapToSwapMode = true // Default to tap mode
     @Published var firstTappedTile: UUID?
+    @Published var helpModeEnabled = false
+    @Published var hintUses = 0
 
     // MARK: - Dependencies
 
@@ -98,12 +100,19 @@ class GameViewModel: ObservableObject {
             return
         }
 
+        guard isTileMovable(at: sourceIndex),
+              isTileMovable(at: targetIndex) else {
+            return
+        }
+
         swapTiles(at: sourceIndex, with: targetIndex)
     }
 
     /// Handle tap-to-swap interaction
     func handleTileTap(_ tileId: UUID) {
         guard tapToSwapMode else { return }
+        guard let tappedIndex = currentTiles.firstIndex(where: { $0.id == tileId }) else { return }
+        guard isTileMovable(at: tappedIndex) else { return }
 
         if let firstTile = firstTappedTile {
             // Second tap - swap tiles
@@ -126,6 +135,12 @@ class GameViewModel: ObservableObject {
 
     /// Swap two tiles with animation
     private func swapTiles(at index1: Int, with index2: Int) {
+        guard index1 != index2 else { return }
+        guard isTileMovable(at: index1),
+              isTileMovable(at: index2) else {
+            return
+        }
+
         withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
             currentTiles.swapAt(index1, index2)
 
@@ -143,14 +158,88 @@ class GameViewModel: ObservableObject {
 
     /// Shuffle the current tiles for inspiration
     func shuffleTiles() {
+        let movableIndices = currentTiles.indices.filter { isTileMovable(at: $0) }
+        guard movableIndices.count > 1 else { return }
+
+        var movableLetters = movableIndices.map { currentTiles[$0].letter }
+        movableLetters.shuffle()
+
         withAnimation(.spring(response: 0.4, dampingFraction: 0.7)) {
-            currentTiles.shuffle()
-            // Update positions after shuffle
-            for (index, _) in currentTiles.enumerated() {
-                currentTiles[index].position = index
+            for (offset, tileIndex) in movableIndices.enumerated() {
+                currentTiles[tileIndex].letter = movableLetters[offset]
             }
         }
         firstTappedTile = nil // Clear any selection
+    }
+
+    func activateHelp() {
+        guard !isGameComplete else { return }
+        helpModeEnabled = true
+        firstTappedTile = nil
+    }
+
+    func applyShuffleHint() {
+        guard helpModeEnabled, canUseShuffleHint else { return }
+        guard let targetWord = currentIntendedWord()?.uppercased() else { return }
+        let targetLetters = Array(targetWord)
+        guard targetLetters.count == currentTiles.count else { return }
+
+        let existingLocked = Set(currentTiles.indices.filter { currentTiles[$0].isHintLocked })
+        let incorrectMovable = currentTiles.indices.filter {
+            !currentTiles[$0].isHintLocked && currentTiles[$0].letter != targetLetters[$0]
+        }
+
+        if incorrectMovable.isEmpty {
+            hintUses = min(2, hintUses + 1)
+            gameState.hintsUsedCount += 1
+            gameState.lastUpdated = Date()
+            SavedProgress.save(gameState)
+            return
+        }
+
+        let revealCount = max(1, Int(ceil(Double(currentTiles.count) / 3.0)))
+        let newlyLocked = Set(incorrectMovable.shuffled().prefix(revealCount))
+        let lockedIndices = existingLocked.union(newlyLocked)
+
+        var letterCounts: [Character: Int] = [:]
+        for tile in currentTiles {
+            letterCounts[tile.letter, default: 0] += 1
+        }
+
+        // Reserve required target letters for locked positions.
+        for index in lockedIndices.sorted() {
+            let target = targetLetters[index]
+            let available = letterCounts[target, default: 0]
+            guard available > 0 else { return }
+            letterCounts[target] = available - 1
+        }
+
+        var remainingLetters: [Character] = []
+        for (letter, count) in letterCounts where count > 0 {
+            remainingLetters.append(contentsOf: Array(repeating: letter, count: count))
+        }
+        remainingLetters.shuffle()
+
+        var remainingIndex = 0
+        withAnimation(.spring(response: 0.4, dampingFraction: 0.7)) {
+            for index in currentTiles.indices {
+                if lockedIndices.contains(index) {
+                    currentTiles[index].letter = targetLetters[index]
+                    currentTiles[index].isHintLocked = true
+                } else {
+                    currentTiles[index].letter = remainingLetters[remainingIndex]
+                    currentTiles[index].isHintLocked = false
+                    remainingIndex += 1
+                }
+                currentTiles[index].position = index
+            }
+        }
+
+        hintUses = min(2, hintUses + 1)
+        gameState.hintsUsedCount += 1
+        gameState.lastUpdated = Date()
+        firstTappedTile = nil
+        SavedProgress.save(gameState)
     }
 
     // MARK: - Word Submission
@@ -251,6 +340,8 @@ class GameViewModel: ObservableObject {
                     // Create next level as: solved word + new letter
                     let newLetters = word.uppercased() + addedLetter.uppercased()
                     currentTiles = LetterTile.tiles(from: newLetters)
+                    helpModeEnabled = false
+                    hintUses = 0
                 }
             }
         }
@@ -278,6 +369,8 @@ class GameViewModel: ObservableObject {
         currentTiles.removeAll()
         showingWinScreen = false
         firstTappedTile = nil
+        helpModeEnabled = false
+        hintUses = 0
 
         SavedProgress.clear(for: chain.id)
         setupGame()
@@ -332,6 +425,10 @@ class GameViewModel: ObservableObject {
         SavedProgress.formatElapsedTime(gameState.elapsedSeconds)
     }
 
+    var canUseShuffleHint: Bool {
+        return helpModeEnabled && hintUses < 2 && currentIntendedWord() != nil
+    }
+
     /// Check if game is complete using the chain's actual level count.
     var isGameComplete: Bool {
         return gameState.currentRowIndex >= totalLevels || gameState.completedRows.count >= totalLevels
@@ -340,5 +437,16 @@ class GameViewModel: ObservableObject {
     /// Get the current level number using the chain's actual level count.
     var currentLevelNumber: Int {
         return min(gameState.currentRowIndex + 1, max(totalLevels, 1))
+    }
+
+    private func currentIntendedWord() -> String? {
+        guard gameState.currentRowIndex < chain.levels.count else { return nil }
+        return chain.levels[gameState.currentRowIndex].intendedWord
+    }
+
+    private func isTileMovable(at index: Int) -> Bool {
+        guard currentTiles.indices.contains(index) else { return false }
+        let tile = currentTiles[index]
+        return !tile.isLocked && !tile.isHintLocked
     }
 }

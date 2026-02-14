@@ -34,13 +34,7 @@ final class WordDictionary: @unchecked Sendable {
         }
 
         let content = try String(contentsOf: url, encoding: .utf8)
-        let words = content.components(separatedBy: .newlines)
-            .map { $0.trimmingCharacters(in: .whitespaces).uppercased() }
-            .filter { !$0.isEmpty }
-
-        for word in words {
-            insert(word)
-        }
+        insertWords(from: content)
     }
 
     /// Load dictionary from a file path
@@ -48,13 +42,7 @@ final class WordDictionary: @unchecked Sendable {
     /// - Throws: Error if file cannot be read
     func loadFromPath(_ path: String) throws {
         let content = try String(contentsOfFile: path, encoding: .utf8)
-        let words = content.components(separatedBy: .newlines)
-            .map { $0.trimmingCharacters(in: .whitespaces).uppercased() }
-            .filter { !$0.isEmpty }
-
-        for word in words {
-            insert(word)
-        }
+        insertWords(from: content)
     }
 
     // MARK: - Insertion
@@ -75,6 +63,16 @@ final class WordDictionary: @unchecked Sendable {
         if !current.isEndOfWord {
             current.isEndOfWord = true
             wordCount += 1
+        }
+    }
+
+    private func insertWords(from content: String) {
+        let words = content.components(separatedBy: .newlines)
+            .map { $0.trimmingCharacters(in: .whitespacesAndNewlines).uppercased() }
+            .filter { !$0.isEmpty }
+
+        for word in words {
+            insert(word)
         }
     }
 

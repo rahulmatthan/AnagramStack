@@ -9,15 +9,17 @@ import Foundation
 
 struct LetterTile: Identifiable, Equatable {
     let id: UUID
-    let letter: Character
+    var letter: Character
     var position: Int
     var isLocked: Bool // true for completed rows
+    var isHintLocked: Bool // true for hint-fixed letters in current row
 
-    init(id: UUID = UUID(), letter: Character, position: Int, isLocked: Bool = false) {
+    init(id: UUID = UUID(), letter: Character, position: Int, isLocked: Bool = false, isHintLocked: Bool = false) {
         self.id = id
         self.letter = letter
         self.position = position
         self.isLocked = isLocked
+        self.isHintLocked = isHintLocked
     }
 }
 
@@ -28,7 +30,8 @@ extension LetterTile {
             LetterTile(
                 letter: char.uppercased().first ?? " ",
                 position: startPosition + index,
-                isLocked: isLocked
+                isLocked: isLocked,
+                isHintLocked: false
             )
         }
     }

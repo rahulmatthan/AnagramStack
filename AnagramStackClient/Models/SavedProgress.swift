@@ -94,6 +94,11 @@ struct SavedProgress: Codable {
         return max(0, saved.gameState.elapsedSeconds)
     }
 
+    static func completedHintsUsed(for chain: AnagramChain) -> Int? {
+        guard isCompleted(for: chain), let saved = load(for: chain) else { return nil }
+        return max(0, saved.gameState.hintsUsedCount)
+    }
+
     static func formatElapsedTime(_ seconds: Int) -> String {
         let clamped = max(0, seconds)
         let mins = clamped / 60

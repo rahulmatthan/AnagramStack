@@ -6,8 +6,6 @@
 //
 
 import SwiftUI
-import Combine
-import UniformTypeIdentifiers
 
 struct GameView: View {
     @StateObject private var viewModel: GameViewModel
@@ -27,8 +25,8 @@ struct GameView: View {
             // Background gradient
             LinearGradient(
                 gradient: Gradient(colors: [
-                    Color.blue.opacity(0.1),
-                    Color.purple.opacity(0.1)
+                    BrandPalette.backgroundTop,
+                    BrandPalette.backgroundBottom
                 ]),
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing
@@ -86,6 +84,9 @@ struct GameView: View {
         .sheet(isPresented: $viewModel.showingWinScreen) {
             WinScreen(onRestart: {
                 viewModel.restartGame()
+            }, onChooseAnotherChain: {
+                viewModel.showingWinScreen = false
+                dismiss()
             })
         }
         .onChange(of: viewModel.showingInvalidFeedback) { oldValue, newValue in
@@ -127,7 +128,7 @@ struct GameView: View {
     // MARK: - Header
 
     private var header: some View {
-        HStack {
+        HStack(alignment: .top) {
             // Close button
             Button {
                 dismiss()
@@ -143,17 +144,32 @@ struct GameView: View {
             VStack(spacing: 4) {
                 Text("Level \(viewModel.currentLevelNumber)")
                     .font(.headline)
+                    .foregroundColor(BrandPalette.textPrimary)
 
                 Text(viewModel.currentLevelInfo)
                     .font(.caption)
-                    .foregroundColor(.secondary)
+                    .foregroundColor(BrandPalette.textSecondary)
 
                 Text(viewModel.formattedElapsedTime)
                     .font(.caption2)
-                    .foregroundColor(.secondary)
+                    .foregroundColor(BrandPalette.textSecondary)
+
+                ProgressView(value: viewModel.progressPercentage)
+                    .tint(BrandPalette.primary)
+                    .frame(width: 120)
+                    .animation(.easeInOut(duration: 0.35), value: viewModel.progressPercentage)
             }
 
             Spacer()
+
+            Button {
+                viewModel.activateHelp()
+            } label: {
+                Image(systemName: "questionmark.circle.fill")
+                    .font(.title)
+                    .foregroundColor(viewModel.helpModeEnabled ? BrandPalette.disabled : BrandPalette.control)
+            }
+            .disabled(viewModel.droppingToNextRow || viewModel.helpModeEnabled)
 
             // Restart button
             Button {
@@ -162,8 +178,8 @@ struct GameView: View {
                 showTilesTypewriter()
             } label: {
                 Image(systemName: "arrow.counterclockwise.circle.fill")
-                    .font(.title2)
-                    .foregroundColor(.blue)
+                    .font(.title)
+                    .foregroundColor(BrandPalette.control)
             }
         }
     }
@@ -235,29 +251,39 @@ struct GameView: View {
     private var instructionText: some View {
         Text("Rearrange the letters to create valid words. If you succeed, you unlock a new letter. How quickly can you get to 8 letters")
             .font(.footnote)
-            .foregroundColor(.secondary)
+            .foregroundColor(BrandPalette.textSecondary)
             .multilineTextAlignment(.center)
-            .padding(.horizontal, 12)
+            .padding(.horizontal, 14)
+            .padding(.vertical, 10)
+            .background(
+                RoundedRectangle(cornerRadius: 10)
+                    .fill(.ultraThinMaterial)
+            )
     }
 
     private var submitButton: some View {
         HStack(spacing: 12) {
             // Shuffle button
             Button {
-                viewModel.shuffleTiles()
+                if viewModel.helpModeEnabled {
+                    viewModel.applyShuffleHint()
+                } else {
+                    viewModel.shuffleTiles()
+                }
             } label: {
                 HStack {
                     Image(systemName: "shuffle")
-                    Text("Shuffle")
+                    Text(viewModel.helpModeEnabled ? "Shuffle Hint" : "Shuffle")
                 }
                 .font(.headline)
                 .foregroundColor(.white)
                 .frame(maxWidth: .infinity)
                 .padding()
-                .background(Color.orange)
+                .background(shuffleButtonColor)
                 .cornerRadius(12)
+                .shadow(color: shuffleButtonDisabled ? .clear : Color.black.opacity(0.08), radius: 4, x: 0, y: 2)
             }
-            .disabled(viewModel.droppingToNextRow)
+            .disabled(shuffleButtonDisabled)
 
             // Submit button
             Button {
@@ -273,11 +299,23 @@ struct GameView: View {
                 .foregroundColor(.white)
                 .frame(maxWidth: .infinity)
                 .padding()
-                .background(Color.blue)
+                .background(BrandPalette.primary)
                 .cornerRadius(12)
+                .shadow(color: viewModel.droppingToNextRow ? .clear : Color.black.opacity(0.1), radius: 5, x: 0, y: 2)
             }
             .disabled(viewModel.droppingToNextRow)
         }
+    }
+
+    private var shuffleButtonDisabled: Bool {
+        if viewModel.droppingToNextRow { return true }
+        if viewModel.helpModeEnabled { return !viewModel.canUseShuffleHint }
+        return false
+    }
+
+    private var shuffleButtonColor: Color {
+        if shuffleButtonDisabled { return BrandPalette.disabled }
+        return viewModel.helpModeEnabled ? BrandPalette.hint : BrandPalette.secondary
     }
 }
 
@@ -312,6 +350,7 @@ struct RowView: View {
         .opacity(isLocked ? 0.5 : 1.0)
     }
 }
+
 
 #Preview {
     let chain = AnagramChain(
