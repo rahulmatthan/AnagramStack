@@ -47,8 +47,13 @@ class ClientAppState: ObservableObject {
             isDictionaryLoaded = true
             print("✅ Dictionary loaded: \(WordDictionary.shared.count) words")
 
-            // Fetch latest chains from GitHub
-            await fetchChains()
+            // Show existing (bundled + cached) chains immediately.
+            loadAvailableChainsFromCache()
+
+            // Fetch latest chains in background and update when done.
+            Task {
+                await fetchChains()
+            }
         } catch {
             loadingError = "Failed to load dictionary: \(error.localizedDescription)"
         }
@@ -68,6 +73,11 @@ class ClientAppState: ObservableObject {
         availableChains = chainService.getAllChains()
 
         print("✅ Total chains available: \(availableChains.count)")
+    }
+
+    private func loadAvailableChainsFromCache() {
+        availableChains = chainService.getAllChains()
+        print("📦 Loaded existing chains immediately: \(availableChains.count)")
     }
 }
 
@@ -146,13 +156,10 @@ struct LaunchSplashView: View {
             VStack(spacing: 24) {
                 Spacer()
 
-                ZStack {
-                    Circle()
-                        .fill(BrandPalette.primary.opacity(0.14))
-                        .frame(width: 130, height: 130)
-
-                    Text("A8")
-                        .font(.system(size: 44, weight: .heavy, design: .rounded))
+                VStack(spacing: 8) {
+                    Text("Anagram Stack")
+                        .font(.system(size: 54, weight: .black, design: .rounded))
+                        .kerning(0.8)
                         .foregroundStyle(
                             LinearGradient(
                                 colors: [BrandPalette.primary, BrandPalette.secondary],
@@ -160,18 +167,15 @@ struct LaunchSplashView: View {
                                 endPoint: .bottomTrailing
                             )
                         )
-                }
-                .scaleEffect(hasAppeared ? 1 : 0.92)
-                .animation(.spring(response: 0.6, dampingFraction: 0.75), value: hasAppeared)
-
-                VStack(spacing: 8) {
-                    Text("Anagram Stack")
-                        .font(.system(size: 36, weight: .bold, design: .rounded))
-                        .foregroundColor(BrandPalette.textPrimary)
+                        .multilineTextAlignment(.center)
+                        .minimumScaleFactor(0.75)
+                        .shadow(color: Color.black.opacity(0.08), radius: 3, x: 0, y: 2)
                     Text("Build words. Unlock letters. Reach 8.")
                         .font(.subheadline)
                         .foregroundColor(BrandPalette.textSecondary)
                 }
+                .scaleEffect(hasAppeared ? 1 : 0.92)
+                .animation(.spring(response: 0.6, dampingFraction: 0.75), value: hasAppeared)
 
                 VStack(alignment: .leading, spacing: 10) {
                     Label("Rearrange the letters to form a valid word.", systemImage: "checkmark.circle")

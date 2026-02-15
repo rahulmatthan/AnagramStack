@@ -73,7 +73,8 @@ class GameViewModel: ObservableObject {
             // First level: use the defined letters
             if gameState.currentRowIndex == 0 {
                 if let letters = currentLevel.letters {
-                    currentTiles = LetterTile.tiles(from: letters)
+                    let jumbled = jumbledFirstLevelLetters(from: letters, intendedWord: currentLevel.intendedWord)
+                    currentTiles = LetterTile.tiles(from: jumbled)
                 }
             } else {
                 // Subsequent levels: use previous solved word + added letter
@@ -442,6 +443,28 @@ class GameViewModel: ObservableObject {
     private func currentIntendedWord() -> String? {
         guard gameState.currentRowIndex < chain.levels.count else { return nil }
         return chain.levels[gameState.currentRowIndex].intendedWord
+    }
+
+    private func jumbledFirstLevelLetters(from letters: String, intendedWord: String?) -> String {
+        let source = letters.uppercased()
+        let target = intendedWord?.uppercased() ?? source
+        let sourceChars = Array(source)
+        guard sourceChars.count > 1 else { return source }
+
+        for _ in 0..<12 {
+            let candidateChars = sourceChars.shuffled()
+            let candidate = String(candidateChars)
+            if candidate != source && candidate != target {
+                return candidate
+            }
+        }
+
+        // Fallback for highly repetitive inputs where shuffle can match original.
+        let rotated = String(sourceChars.dropFirst() + sourceChars.prefix(1))
+        if rotated != source && rotated != target {
+            return rotated
+        }
+        return source
     }
 
     private func isTileMovable(at index: Int) -> Bool {

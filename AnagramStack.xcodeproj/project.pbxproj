@@ -243,19 +243,19 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
-			B79C2AE72F3DBA90001AE71D /* AnagramStackClient */ = {
-				isa = PBXGroup;
-				children = (
-					B79C2ADC2F3DBA90001AE71D /* Models */,
-					B79C2ADD2F3DBA90001AE71D /* Services */,
-					B79C2ADF2F3DBA90001AE71D /* ViewModels */,
-					B79C2AE52F3DBA90001AE71D /* Views */,
-					B79C2B492F3EE000001AE71D /* Assets.xcassets */,
-					B79C2AE62F3DBA90001AE71D /* AnagramStackClientApp.swift */,
-				);
-				path = AnagramStackClient;
-				sourceTree = "<group>";
-			};
+		B79C2AE72F3DBA90001AE71D /* AnagramStackClient */ = {
+			isa = PBXGroup;
+			children = (
+				B79C2ADC2F3DBA90001AE71D /* Models */,
+				B79C2ADD2F3DBA90001AE71D /* Services */,
+				B79C2ADF2F3DBA90001AE71D /* ViewModels */,
+				B79C2AE52F3DBA90001AE71D /* Views */,
+				B79C2B492F3EE000001AE71D /* Assets.xcassets */,
+				B79C2AE62F3DBA90001AE71D /* AnagramStackClientApp.swift */,
+			);
+			path = AnagramStackClient;
+			sourceTree = "<group>";
+		};
 		B79C2AF32F3DBA9F001AE71D /* chains */ = {
 			isa = PBXGroup;
 			children = (
@@ -469,15 +469,15 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-			B79C2AA62F3DB80C001AE71D /* Resources */ = {
-				isa = PBXResourcesBuildPhase;
-				buildActionMask = 2147483647;
-				files = (
-					B79C2B4A2F3EE000001AE71D /* Assets.xcassets in Resources */,
-					B79C2AF72F3DBA9F001AE71D /* words_alpha.txt in Resources */,
-					B79C2AF82F3DBA9F001AE71D /* sample-chain-001.json in Resources */,
-					B79C2AF92F3DBA9F001AE71D /* dictionary.txt in Resources */,
-				);
+		B79C2AA62F3DB80C001AE71D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B79C2B4A2F3EE000001AE71D /* Assets.xcassets in Resources */,
+				B79C2AF72F3DBA9F001AE71D /* words_alpha.txt in Resources */,
+				B79C2AF82F3DBA9F001AE71D /* sample-chain-001.json in Resources */,
+				B79C2AF92F3DBA9F001AE71D /* dictionary.txt in Resources */,
+			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		B79C2AB32F3DB80D001AE71D /* Resources */ = {
@@ -730,7 +730,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				AUTOMATION_APPLE_EVENTS = NO;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = GAMJ6J6LT3;
 				ENABLE_APP_SANDBOX = NO;
 				ENABLE_HARDENED_RUNTIME = NO;
@@ -751,8 +751,7 @@
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+					INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
@@ -769,13 +768,14 @@
 				RUNTIME_EXCEPTION_DISABLE_LIBRARY_VALIDATION = NO;
 				SDKROOT = auto;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
+				TARGETED_DEVICE_FAMILY = 1;
 				XROS_DEPLOYMENT_TARGET = 26.2;
 			};
 			name = Debug;
@@ -788,7 +788,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				AUTOMATION_APPLE_EVENTS = NO;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = GAMJ6J6LT3;
 				ENABLE_APP_SANDBOX = NO;
 				ENABLE_HARDENED_RUNTIME = NO;
@@ -809,8 +809,7 @@
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+					INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
@@ -827,13 +826,14 @@
 				RUNTIME_EXCEPTION_DISABLE_LIBRARY_VALIDATION = NO;
 				SDKROOT = auto;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
+				TARGETED_DEVICE_FAMILY = 1;
 				XROS_DEPLOYMENT_TARGET = 26.2;
 			};
 			name = Release;

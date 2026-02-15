@@ -81,13 +81,25 @@ struct GameView: View {
                 FeedbackOverlay(message: viewModel.feedbackMessage, isValid: false)
             }
         }
-        .sheet(isPresented: $viewModel.showingWinScreen) {
-            WinScreen(onRestart: {
-                viewModel.restartGame()
-            }, onChooseAnotherChain: {
-                viewModel.showingWinScreen = false
-                dismiss()
-            })
+        .overlay {
+            if viewModel.showingWinScreen {
+                ZStack {
+                    Color.black.opacity(0.22)
+                        .ignoresSafeArea()
+                        .onTapGesture {
+                            viewModel.showingWinScreen = false
+                        }
+
+                    WinScreen(onRestart: {
+                        viewModel.restartGame()
+                        viewModel.showingWinScreen = false
+                    }, onChooseAnotherChain: {
+                        viewModel.showingWinScreen = false
+                        dismiss()
+                    })
+                }
+                .transition(.opacity)
+            }
         }
         .onChange(of: viewModel.showingInvalidFeedback) { oldValue, newValue in
             if newValue {

@@ -2,7 +2,7 @@
 //  WinScreen.swift
 //  AnagramStackClient
 //
-//  Victory screen displayed when player completes all 6 levels
+//  Compact completion overlay card
 //
 
 import SwiftUI
@@ -10,90 +10,60 @@ import SwiftUI
 struct WinScreen: View {
     let onRestart: () -> Void
     let onChooseAnotherChain: () -> Void
-    @Environment(\.dismiss) private var dismiss
 
     var body: some View {
-        ZStack {
-            // Background gradient
-            LinearGradient(
-                gradient: Gradient(colors: [
-                    BrandPalette.backgroundTop,
-                    BrandPalette.backgroundBottom
-                ]),
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
-            )
-            .ignoresSafeArea()
+        VStack(spacing: 16) {
+            Text("Congratulations")
+                .font(.title3.weight(.bold))
+                .foregroundColor(.primary)
 
-            VStack(spacing: 32) {
-                Spacer()
-
-                // Trophy icon with animation
-                Image(systemName: "trophy.fill")
-                    .font(.system(size: 80))
-                    .foregroundColor(BrandPalette.trophy)
-                    .shadow(radius: 10)
-                    .scaleEffect(animationPhase ? 1.05 : 1.0)
-                    .animation(
-                        Animation.easeInOut(duration: 1.6).repeatForever(autoreverses: true),
-                        value: animationPhase
-                    )
-
-                // Congratulations text
-                VStack(spacing: 12) {
-                    Text("Congratulations!")
-                        .font(.system(size: 40, weight: .bold))
-                        .foregroundColor(.primary)
-
-                    Text("You completed the anagram chain!")
-                        .font(.title3)
-                        .foregroundColor(.secondary)
+            HStack(spacing: 10) {
+                Button {
+                    onRestart()
+                } label: {
+                    Text("Play Again")
+                        .font(.subheadline.weight(.semibold))
+                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 10)
+                        .background(BrandPalette.success)
+                        .cornerRadius(10)
                 }
 
-                Spacer()
-
-                // Actions
-                VStack(spacing: 16) {
-                    Button {
-                        onRestart()
-                        dismiss()
-                    } label: {
-                        Text("Play Again")
-                            .font(.headline)
-                            .foregroundColor(.white)
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .background(BrandPalette.success)
-                            .cornerRadius(12)
-                    }
-
-                    Button {
-                        onChooseAnotherChain()
-                    } label: {
-                        Text("Choose Another Chain")
-                            .font(.headline)
-                            .foregroundColor(.white)
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .background(BrandPalette.primary)
-                            .cornerRadius(12)
-                    }
+                Button {
+                    onChooseAnotherChain()
+                } label: {
+                    Text("New Chain")
+                        .font(.subheadline.weight(.semibold))
+                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 10)
+                        .background(BrandPalette.primary)
+                        .cornerRadius(10)
                 }
-                .padding(.horizontal, 40)
-
-                Spacer()
-                    .frame(height: 60)
             }
         }
-        .onAppear {
-            animationPhase = true
+        .padding(16)
+        .frame(maxWidth: 320)
+        .background(
+            RoundedRectangle(cornerRadius: 14)
+                .fill(.ultraThinMaterial)
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: 14)
+                .stroke(Color.black.opacity(0.08), lineWidth: 1)
+        )
+        .shadow(color: Color.black.opacity(0.15), radius: 12, x: 0, y: 4)
+        .contentShape(RoundedRectangle(cornerRadius: 14))
+        .onTapGesture {
+            // Consume taps so only outside area dismisses.
         }
     }
-
-    @State private var animationPhase = false
 }
 
-
 #Preview {
-    WinScreen(onRestart: {}, onChooseAnotherChain: {})
+    ZStack {
+        Color.gray.opacity(0.2).ignoresSafeArea()
+        WinScreen(onRestart: {}, onChooseAnotherChain: {})
+    }
 }
