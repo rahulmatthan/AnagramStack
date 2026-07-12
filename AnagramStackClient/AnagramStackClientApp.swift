@@ -7,6 +7,9 @@
 
 import SwiftUI
 import Combine
+#if os(iOS)
+import UIKit
+#endif
 
 @main
 struct AnagramStackClientApp: App {
@@ -227,18 +230,84 @@ struct LaunchSplashView: View {
 }
 
 enum BrandPalette {
-    static let backgroundTop = Color(red: 0.95, green: 0.97, blue: 0.99)
-    static let backgroundBottom = Color(red: 0.98, green: 0.95, blue: 0.95)
+    static let backgroundTop = dynamicColor(
+        light: UIColor(red: 0.95, green: 0.97, blue: 0.99, alpha: 1),
+        dark: UIColor(red: 0.08, green: 0.10, blue: 0.13, alpha: 1)
+    )
+    static let backgroundBottom = dynamicColor(
+        light: UIColor(red: 0.98, green: 0.95, blue: 0.95, alpha: 1),
+        dark: UIColor(red: 0.10, green: 0.10, blue: 0.12, alpha: 1)
+    )
 
-    static let primary = Color(red: 0.12, green: 0.42, blue: 0.79)
-    static let secondary = Color(red: 0.16, green: 0.57, blue: 0.67)
-    static let control = Color(red: 0.16, green: 0.49, blue: 0.72)
+    static let primary = dynamicColor(
+        light: UIColor(red: 0.12, green: 0.42, blue: 0.79, alpha: 1),
+        dark: UIColor(red: 0.36, green: 0.62, blue: 0.96, alpha: 1)
+    )
+    static let secondary = dynamicColor(
+        light: UIColor(red: 0.16, green: 0.57, blue: 0.67, alpha: 1),
+        dark: UIColor(red: 0.34, green: 0.72, blue: 0.78, alpha: 1)
+    )
+    static let control = dynamicColor(
+        light: UIColor(red: 0.16, green: 0.49, blue: 0.72, alpha: 1),
+        dark: UIColor(red: 0.35, green: 0.66, blue: 0.90, alpha: 1)
+    )
 
-    static let success = Color(red: 0.20, green: 0.58, blue: 0.36)
-    static let hint = Color(red: 0.78, green: 0.38, blue: 0.40)
-    static let trophy = Color(red: 0.90, green: 0.70, blue: 0.20)
+    static let success = dynamicColor(
+        light: UIColor(red: 0.20, green: 0.58, blue: 0.36, alpha: 1),
+        dark: UIColor(red: 0.38, green: 0.78, blue: 0.52, alpha: 1)
+    )
+    static let hint = dynamicColor(
+        light: UIColor(red: 0.78, green: 0.38, blue: 0.40, alpha: 1),
+        dark: UIColor(red: 0.93, green: 0.55, blue: 0.56, alpha: 1)
+    )
+    static let trophy = dynamicColor(
+        light: UIColor(red: 0.90, green: 0.70, blue: 0.20, alpha: 1),
+        dark: UIColor(red: 0.96, green: 0.80, blue: 0.40, alpha: 1)
+    )
+
+    static let surfaceActive = dynamicColor(
+        light: UIColor(white: 1.0, alpha: 0.92),
+        dark: UIColor(red: 0.14, green: 0.16, blue: 0.20, alpha: 0.95)
+    )
+    static let surfaceMuted = dynamicColor(
+        light: UIColor(white: 0.5, alpha: 0.20),
+        dark: UIColor(white: 0.35, alpha: 0.45)
+    )
+    static let surfaceLocked = dynamicColor(
+        light: UIColor(white: 0.45, alpha: 0.24),
+        dark: UIColor(white: 0.30, alpha: 0.56)
+    )
+    static let borderStrong = dynamicColor(
+        light: UIColor(red: 0.12, green: 0.42, blue: 0.79, alpha: 0.35),
+        dark: UIColor(red: 0.36, green: 0.62, blue: 0.96, alpha: 0.50)
+    )
+    static let borderSubtle = dynamicColor(
+        light: UIColor(white: 0.20, alpha: 0.12),
+        dark: UIColor(white: 1.0, alpha: 0.10)
+    )
+    static let tileNeutralFill = dynamicColor(
+        light: UIColor(white: 1.0, alpha: 0.92),
+        dark: UIColor(red: 0.16, green: 0.18, blue: 0.23, alpha: 1)
+    )
+    static let tileNeutralBorder = dynamicColor(
+        light: UIColor(white: 0.1, alpha: 0.08),
+        dark: UIColor(white: 1.0, alpha: 0.14)
+    )
 
     static let textPrimary = Color.primary
     static let textSecondary = Color.secondary
-    static let disabled = Color.gray
+    static let disabled = dynamicColor(
+        light: UIColor(white: 0.55, alpha: 1),
+        dark: UIColor(white: 0.45, alpha: 1)
+    )
+
+    private static func dynamicColor(light: UIColor, dark: UIColor) -> Color {
+        #if os(iOS)
+        return Color(UIColor { traits in
+            traits.userInterfaceStyle == .dark ? dark : light
+        })
+        #else
+        return Color(light)
+        #endif
+    }
 }

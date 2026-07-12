@@ -52,7 +52,7 @@ struct LetterTileView: View {
         if tile.isHintLocked {
             return BrandPalette.hint.opacity(0.28)
         }
-        return Color.white.opacity(0.92)
+        return BrandPalette.tileNeutralFill
     }
 
     private var textColor: Color {
@@ -72,7 +72,7 @@ struct LetterTileView: View {
         if tile.isHintLocked {
             return BrandPalette.hint.opacity(0.4)
         }
-        return Color.black.opacity(0.08)
+        return BrandPalette.tileNeutralBorder
     }
 
     private var shadowColor: Color {

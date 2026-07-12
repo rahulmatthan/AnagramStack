@@ -267,8 +267,8 @@ private struct CollapsedPackBubble: View {
         switch state {
         case .unlocked:
             return (
-                backgroundFill: Color.white.opacity(0.9),
-                borderColor: BrandPalette.primary.opacity(0.32),
+                backgroundFill: BrandPalette.surfaceActive,
+                borderColor: BrandPalette.borderStrong,
                 progressColor: BrandPalette.primary,
                 titleColor: .primary,
                 subtitleColor: .secondary,
@@ -276,8 +276,8 @@ private struct CollapsedPackBubble: View {
             )
         case .completed:
             return (
-                backgroundFill: Color.gray.opacity(0.20),
-                borderColor: Color.gray.opacity(0.34),
+                backgroundFill: BrandPalette.surfaceMuted,
+                borderColor: BrandPalette.borderSubtle,
                 progressColor: BrandPalette.success.opacity(0.72),
                 titleColor: Color.primary.opacity(0.62),
                 subtitleColor: Color.secondary.opacity(0.65),
@@ -285,8 +285,8 @@ private struct CollapsedPackBubble: View {
             )
         case .locked:
             return (
-                backgroundFill: Color.gray.opacity(0.26),
-                borderColor: Color.gray.opacity(0.36),
+                backgroundFill: BrandPalette.surfaceLocked,
+                borderColor: BrandPalette.borderSubtle,
                 progressColor: Color.gray.opacity(0.58),
                 titleColor: Color.primary.opacity(0.58),
                 subtitleColor: Color.secondary.opacity(0.62),
@@ -391,13 +391,13 @@ private struct ExpandedUnlockedPackBubble: View {
         .padding(10)
         .background(
             RoundedRectangle(cornerRadius: 13)
-                .fill(Color.white.opacity(0.94))
+                .fill(BrandPalette.surfaceActive)
         )
         .overlay(
             RoundedRectangle(cornerRadius: 13)
-                .stroke(BrandPalette.primary.opacity(0.35), lineWidth: 1.2)
+                .stroke(BrandPalette.borderStrong, lineWidth: 1.2)
         )
-        .shadow(color: BrandPalette.primary.opacity(0.09), radius: 7, x: 0, y: 2)
+        .shadow(color: BrandPalette.primary.opacity(0.12), radius: 7, x: 0, y: 2)
     }
 }
 
