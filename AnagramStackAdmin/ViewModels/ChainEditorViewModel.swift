@@ -144,8 +144,8 @@ class ChainEditorViewModel: ObservableObject {
 
     /// Get the chains directory URL
     private var chainsDirectory: URL {
-        let documentsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-        let chainsPath = documentsPath.appendingPathComponent("chains")
+        let chainsPath = FileManager.default.homeDirectoryForCurrentUser
+            .appendingPathComponent("Coding/Anagame/chains")
 
         // Create directory if it doesn't exist
         if !FileManager.default.fileExists(atPath: chainsPath.path) {

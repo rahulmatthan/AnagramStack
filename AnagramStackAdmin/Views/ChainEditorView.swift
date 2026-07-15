@@ -350,9 +350,8 @@ struct ChainEditorView: View {
         print("📦 Exporting all chains...")
         print("   Total chains in list: \(viewModel.chains.count)")
 
-        // Export to Desktop (has permissions)
-        let desktopURL = FileManager.default.urls(for: .desktopDirectory, in: .userDomainMask)[0]
-        let exportURL = desktopURL.appendingPathComponent("AnagramChains")
+        let exportURL = FileManager.default.homeDirectoryForCurrentUser
+            .appendingPathComponent("Coding/Anagame/exports")
 
         do {
             try FileManager.default.createDirectory(at: exportURL, withIntermediateDirectories: true)
